@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-p.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="H5自带进度条1234&amp;lt;div id=&quot;d1&quot;&amp;gt;  &amp;lt;p id=&quot;pgv&quot;&amp;gt;进度：0%&amp;lt;/p&amp;gt;  &amp;lt;progress id=&quot;pg&quot; max=&quot;100&quot; value=&quot;0&quot;&amp;gt;&amp;lt;/progress&amp;gt;&amp;lt;/div&amp;gt; 运用progress标签，设置好min和max数值就好。可以用value获取其中的进度值123456789101112">
+<meta name="keywords" content="CSS,HTML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML之H5自带进度条">
+<meta property="og:url" content="https://github.com/wz71014q/2018/04/16/HTML之H5自带进度条/index.html">
+<meta property="og:site_name" content="βloS">
+<meta property="og:description" content="H5自带进度条1234&amp;lt;div id=&quot;d1&quot;&amp;gt;  &amp;lt;p id=&quot;pgv&quot;&amp;gt;进度：0%&amp;lt;/p&amp;gt;  &amp;lt;progress id=&quot;pg&quot; max=&quot;100&quot; value=&quot;0&quot;&amp;gt;&amp;lt;/progress&amp;gt;&amp;lt;/div&amp;gt; 运用progress标签，设置好min和max数值就好。可以用value获取其中的进度值123456789101112">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-6.png">
+<meta property="og:updated_time" content="2019-09-26T03:31:07.508Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTML之H5自带进度条">
+<meta name="twitter:description" content="H5自带进度条1234&amp;lt;div id=&quot;d1&quot;&amp;gt;  &amp;lt;p id=&quot;pgv&quot;&amp;gt;进度：0%&amp;lt;/p&amp;gt;  &amp;lt;progress id=&quot;pg&quot; max=&quot;100&quot; value=&quot;0&quot;&amp;gt;&amp;lt;/progress&amp;gt;&amp;lt;/div&amp;gt; 运用progress标签，设置好min和max数值就好。可以用value获取其中的进度值123456789101112">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://github.com/wz71014q/2018/04/16/HTML之H5自带进度条/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>HTML之H5自带进度条 | βloS</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">βloS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2018/04/16/HTML之H5自带进度条/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HTML之H5自带进度条
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-16 11:11:00" itemprop="dateCreated datePublished" datetime="2018-04-16T11:11:00+08:00">2018-04-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-26 11:31:07" itemprop="dateModified" datetime="2019-09-26T11:31:07+08:00">2019-09-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTML/" itemprop="url" rel="index"><span itemprop="name">HTML</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="H5自带进度条"><a href="#H5自带进度条" class="headerlink" title="H5自带进度条"></a>H5自带进度条</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"d1"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"pgv"</span>&gt;</span>进度：0%<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">progress</span> <span class="attr">id</span>=<span class="string">"pg"</span> <span class="attr">max</span>=<span class="string">"100"</span> <span class="attr">value</span>=<span class="string">"0"</span>&gt;</span><span class="tag">&lt;/<span class="name">progress</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运用progress标签，设置好min和max数值就好。可以用value获取其中的进度值<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">staticProgress</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> pg = <span class="built_in">document</span>.getElementById(<span class="string">'pg'</span>)</span><br><span class="line">  <span class="keyword">var</span> pgv = <span class="built_in">document</span>.getElementById(<span class="string">'pgv'</span>)</span><br><span class="line">  <span class="keyword">var</span> timer = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pg.value !== <span class="number">100</span>) &#123;</span><br><span class="line">      pg.value++</span><br><span class="line">      pgv.innerHTML = <span class="string">'进度：'</span> + pg.value + <span class="string">'%'</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      pgv.innerHTML = <span class="string">'加载完成'</span></span><br><span class="line">      clearInterval(timer)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最终效果如下：<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-1.png" alt></p>
+<a id="more"></a>
+<p>这个显示效果是chrome浏览器的，IE和FireFox的是另外的样式！</p>
+<p>样式更改：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">progress</span>&#123;</span><br><span class="line">    <span class="attribute">-webkit-appearance</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-pseudo">::-webkit-progress-bar</span>&#123;</span><br><span class="line">    <span class="comment">/* 获取progress */</span></span><br><span class="line">    <span class="attribute">background-color</span>: orange;</span><br><span class="line">    <span class="comment">/* 进度条未被填充的背景颜色 */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-pseudo">::-webkit-progress-value</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(43, 255, 0);</span><br><span class="line">    <span class="comment">/* 进度条被填充部分的背景颜色 */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-pseudo">::-webkit-progress-inner-element</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">2px</span> solid black;</span><br><span class="line">    <span class="comment">/* 进度条的内边框，注意跟outline区分 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的样式全部是针对webkit内核的，其他的不支持~~~  效果如下：<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-2.png" alt></p>
+<h2 id="H5自带滑块"><a href="#H5自带滑块" class="headerlink" title="H5自带滑块"></a>H5自带滑块</h2><p>将input的type设置为range。但是这个属性不是所有浏览器都支持，如果不支持，会返回默认属性，就是</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>（详情参考<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range）" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range）</a><br>默认样式：<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-3.png" alt></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"d3"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>H5可拖动滑块:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">name</span>=<span class="string">"points"</span> <span class="attr">min</span>=<span class="string">"0"</span> <span class="attr">max</span>=<span class="string">"100"</span> <span class="attr">id</span>=<span class="string">"h5pro"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>自带属性：  </li>
+</ol>
+<p>(1)、defaultValue = (rangeElem.max &lt; rangeElem.min) ? rangeElem.min : rangeElem.min + (rangeElem.max - rangeElem.min)/2；</p>
+<p>默认值 = （设置最大值 &lt; 设置最小值）？设置最小值 : 设置最小值 + ( 设置最大值 - 设置最小值 ) / 2 ——其实就是取中间值</p>
+<p>我们可以用value=”7”设置滑块的值。</p>
+<p>(2)、</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">min</span>=<span class="string">"-10"</span> <span class="attr">max</span>=<span class="string">"10"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>min: 设置最小值； max: 设置最大值</p>
+<p>(3)、</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">min</span>=<span class="string">"5"</span> <span class="attr">max</span>=<span class="string">"10"</span> <span class="attr">step</span>=<span class="string">"0.01"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>step: 设置步进值，默认是1。如果min或者max设置了小数点，比如：max=”3.14”，这个小数点就取不到了，那么可以将step设置为: step=”any”。</p>
+<p>(4)、hash marks和label：</p>
+<p>注意：目前没有哪个浏览器完全支持hash marks和label这两个属性，比如Firefox两个都不支持，Chrome支持hash marks但是不支持label.</p>
+<p>a) hash marks：<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-4.png" alt></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">name</span>=<span class="string">"points"</span> <span class="attr">min</span>=<span class="string">"0"</span> <span class="attr">max</span>=<span class="string">"100"</span> <span class="attr">step</span>=<span class="string">"any"</span> <span class="attr">id</span>=<span class="string">"h5pro"</span>  <span class="attr">list</span>=<span class="string">"tickmarks"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">datalist</span> <span class="attr">id</span>=<span class="string">"tickmarks"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"10"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"20"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"30"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"40"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"50"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"60"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"70"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"80"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"90"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"100"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">datalist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>b) label ：<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-5.png" alt></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">name</span>=<span class="string">"points"</span> <span class="attr">min</span>=<span class="string">"0"</span> <span class="attr">max</span>=<span class="string">"100"</span> <span class="attr">step</span>=<span class="string">"any"</span> <span class="attr">id</span>=<span class="string">"h5pro"</span>  <span class="attr">list</span>=<span class="string">"tickmarks"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">datalist</span> <span class="attr">id</span>=<span class="string">"tickmarks"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"0"</span> <span class="attr">label</span>=<span class="string">"0%"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"10"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"20"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"30"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"40"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"50"</span> <span class="attr">label</span>=<span class="string">"50%"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"60"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"70"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"80"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"90"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"100"</span> <span class="attr">label</span>=<span class="string">"100%"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">datalist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>(5)、autofocus可以设置或返回滑块是否自动获得焦点，设置为true后，进入网页会自动锁定滑块，在键盘上按上下左右都可以控制</p>
+<ol>
+<li>外观美化：</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=range]</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: none;</span><br><span class="line">  <span class="attribute">-webkit-appearance</span>: none; <span class="comment">/* 去除系统默认appearance的样式,常用于IOS下移除原生样式 */</span></span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=range]</span><span class="selector-pseudo">::-webkit-slider-runnable-track</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">15px</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">1px</span> <span class="number">1px</span> <span class="number">#def3f8</span>, inset <span class="number">0</span> .<span class="number">125em</span> .<span class="number">125em</span> <span class="number">#0d1112</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* ::-webkit-slider-runnable-track 是个CSS伪类元素，不是所有浏览器都支持。可以获取&lt;input type="range"&gt;的轨道</span></span><br><span class="line"><span class="comment">详情参考：https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-slider-runnable-track */</span></span><br><span class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=range]</span><span class="selector-pseudo">::-webkit-slider-thumb</span> &#123;</span><br><span class="line">  <span class="attribute">-webkit-appearance</span>: none; <span class="comment">/* 去除滑块的默认样式 */</span></span><br><span class="line">  <span class="attribute">height</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">margin-top</span>: -<span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">background</span>:<span class="number">#7B05E0</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">border</span>: solid <span class="number">0.125em</span> <span class="built_in">rgba</span>(205, 224, 230, 0.5);</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> .<span class="number">125em</span> .<span class="number">125em</span> <span class="number">#3b4547</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>::-webkit-slider-thumb 可以获取&lt;input type=”range”>的轨道<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/progress/progress-6.png" alt></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+            <a href="/tags/HTML/" rel="tag"># HTML</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/06/模拟win7拖动对话框效果/" rel="next" title="模拟win7拖动对话框效果">
+                <i class="fa fa-chevron-left"></i> 模拟win7拖动对话框效果
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/17/自制slider滑杆/" rel="prev" title="自制slider滑杆">
+                自制slider滑杆 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Qiang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wz71014q" title="GitHub &rarr; https://github.com/wz71014q"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="rss &rarr; /atom.xml"><i class="fa fa-fw fa-globe"></i>rss</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#H5自带进度条"><span class="nav-number">1.</span> <span class="nav-text">H5自带进度条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#H5自带滑块"><span class="nav-number">2.</span> <span class="nav-text">H5自带滑块</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '308e932f93156c7c01df',
+    clientSecret: '6e6359f046270cc0ee7c61fdd2d97ff3aba140a9',
+    repo: 'blogComment',
+    owner: 'wz71014q',
+    admin: ['wz71014q'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: ''
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+  <script src="/live2d-widget/autoload.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

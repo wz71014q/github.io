@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-p.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="http的发展历史 http/0.9   只有一个get方法，服务器发送完数据就关闭TCP连接; HTTP/0.9 的响应内容并不包含HTTP头，这意味着只有HTML件可以传送，无法传输其他类型的文件； 没有状态码或错误代码 请求方法：GET   http/1.0   状态码在响应开始时发送，使浏览器能够快速了解请求的状态并能做出一些调整 引入了HTTP请求头的概念。 在新HTTP头（Conten">
+<meta name="keywords" content="JS,http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http的发展历史">
+<meta property="og:url" content="https://github.com/wz71014q/2018/08/09/http发展历史/index.html">
+<meta property="og:site_name" content="βloS">
+<meta property="og:description" content="http的发展历史 http/0.9   只有一个get方法，服务器发送完数据就关闭TCP连接; HTTP/0.9 的响应内容并不包含HTTP头，这意味着只有HTML件可以传送，无法传输其他类型的文件； 没有状态码或错误代码 请求方法：GET   http/1.0   状态码在响应开始时发送，使浏览器能够快速了解请求的状态并能做出一些调整 引入了HTTP请求头的概念。 在新HTTP头（Conten">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-26T03:31:07.511Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="http的发展历史">
+<meta name="twitter:description" content="http的发展历史 http/0.9   只有一个get方法，服务器发送完数据就关闭TCP连接; HTTP/0.9 的响应内容并不包含HTTP头，这意味着只有HTML件可以传送，无法传输其他类型的文件； 没有状态码或错误代码 请求方法：GET   http/1.0   状态码在响应开始时发送，使浏览器能够快速了解请求的状态并能做出一些调整 引入了HTTP请求头的概念。 在新HTTP头（Conten">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://github.com/wz71014q/2018/08/09/http发展历史/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>http的发展历史 | βloS</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">βloS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2018/08/09/http发展历史/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">http的发展历史
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-09 19:08:00" itemprop="dateCreated datePublished" datetime="2018-08-09T19:08:00+08:00">2018-08-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-26 11:31:07" itemprop="dateModified" datetime="2019-09-26T11:31:07+08:00">2019-09-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JS/" itemprop="url" rel="index"><span itemprop="name">JS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/http/" itemprop="url" rel="index"><span itemprop="name">http</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="http的发展历史"><a href="#http的发展历史" class="headerlink" title="http的发展历史"></a>http的发展历史</h2><ol>
+<li>http/0.9</li>
+</ol>
+<ul>
+<li>只有一个get方法，服务器发送完数据就关闭TCP连接;</li>
+<li>HTTP/0.9 的响应内容并不包含HTTP头，这意味着只有HTML件可以传送，无法传输其他类型的文件；</li>
+<li>没有状态码或错误代码</li>
+<li>请求方法：GET</li>
+</ul>
+<ol start="2">
+<li>http/1.0</li>
+</ol>
+<ul>
+<li>状态码在响应开始时发送，使浏览器能够快速了解请求的状态并能做出一些调整</li>
+<li>引入了HTTP请求头的概念。</li>
+<li>在新HTTP头（Content-Type头）的帮助下，具备了传输非HTML文档的能力</li>
+<li>增加了协议版本信息</li>
+<li>1.0支持GET、POST、HEAD</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// e.g.</span></span><br><span class="line">GET /myPage.html HTTP/<span class="number">1.0</span></span><br><span class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">10.0</span>; WOW64) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Chrome/<span class="number">69.0</span><span class="number">.3497</span><span class="number">.100</span> Safari/<span class="number">537.36</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">200</span> OK</span><br><span class="line"><span class="built_in">Date</span>: Tue, <span class="number">15</span> Nov <span class="number">1994</span> <span class="number">08</span>:<span class="number">12</span>:<span class="number">31</span> GMT</span><br><span class="line">Server: CERN/<span class="number">3.0</span> libwww/<span class="number">2.17</span></span><br><span class="line">Content-Type: text/html</span><br><span class="line"><span class="comment">// 一个包含图片的页面</span></span><br><span class="line">&lt;HTML&gt;</span><br><span class="line">  &lt;IMG SRC=<span class="string">"/myimage.gif"</span>&gt;</span><br><span class="line">&lt;<span class="regexp">/HTML&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>http/1.1</li>
+</ol>
+<ul>
+<li>第一个http标准化版本，可以使用Host请求头，使同一个IP可以配置多个域名</li>
+<li>持久链接（keep-alive）</li>
+<li>增加了pipeline，HTTP的请求队列是一个先进先出的队列。客户端的请求是一个接一个的，上一个请求没收到回应时就继续等待，收到回应后再发送下一个请求。这样服务器有大部分时间处于空闲状态。1.1版本的http协议将这个队列放在了服务器，客户端可以不断地发送请求，服务器将这些请求整理在一个队列中，一个一个进行处理。</li>
+<li>可以同时打开多个TCP连接。</li>
+</ul>
+<ol start="4">
+<li>http/2.0</li>
+</ol>
+<ul>
+<li>二进制分帧层</li>
+<li>多路复用</li>
+<li>首部压缩</li>
+<li>服务器推送</li>
+<li>GET、POST、HEAD、OPTIONS、PUT、DELETE、TRACE、CONNECT</li>
+</ul>
+<h2 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h2><ul>
+<li>GET: 请求显示指定路径的资源，一般只用来数据的读取；</li>
+<li>POST: 向指定资源提交数据，并请求服务器进行处理，例如表单的提交等；</li>
+<li>HEAD: 与GET方法一样，但是只返回响应头信息，常用来测试服务器的性能；</li>
+<li>PUT: 向服务器指定路径上传最新资源，是幂等的方法。通过该方法，客户端可以上传最新内容；</li>
+<li>DELETE: 向服务器请求删除指定URI的资源，是幂等的；</li>
+<li>CONNECT: 该方法是HTTP/1.1预留方法，能够连接改为管道方式的代理服务器，常用于SSL加密的加密服务器或者非加密HTTP代理服务器</li>
+<li>OPTIONS: 该方法向服务器请求返回所有支持的HTTP请求方法，也用来测试服务器性能</li>
+<li>TRACE: 该方法请求服务器返回请求的内容，用于HTTP的诊断或测试</li>
+<li><p>PATCH: PATCH方法与PUT方法一样，用来更新服务器的资源。区别是:<br>1、PATCH方法只是部分更新，PUT方法是全部更新。<br>2、PATCH方法指定的服务器路径不存在时会创建一个，PUT不会</p>
+</li>
+<li><p>幂等：对同一个系统，使用同样的条件，一次请求和重复的多次请求对系统资源的影响是一致的。</p>
+</li>
+</ul>
+<h2 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h2><ol>
+<li>1xx 服务器收到请求，请求者需要继续操作<blockquote>
+<p>100 继续请求<br>101 服务器根据客户端的要求，切换更高级的协议</p>
+</blockquote>
+</li>
+<li>2xx 请求成功，服务器正在处理或成功处理<blockquote>
+<p>200 请求成功<br>201 已创建，成功请求并创建了新的资源<br>202 已接受，但处理未完成<br>204 无内容，服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</p>
+</blockquote>
+</li>
+<li>3xx 重定向，需要进一步操作，以完成请求<blockquote>
+<p>300 请求的资源有多个地址，需要客户端自己选择<br>301 请求的资源已被永久移动到新地址，返回新地址，浏览器自动解析新的url<br>302 临时重定向<br>304 请求的内容未修改。客户端通常会缓存访问过的资源，通过一个头信息指出希望只返回指定日期之后修改的资源<br>头信息：Last-Modified: Wed, 18 Jun 2018 14:22:27 GMT<br>Cache-Control: max-age=600<br>Expires: Wed, 18 Jun 2018 14:48:39 GMT<br>Date: Wed, 18 Jun 2018 14:48:39 GMT<br>浏览器第一次请求某一个url时，服务端返回的状态是200，同时有个Last-Modified标记文件在服务端最后的修改时间，第二次请求时，浏览器会向服务器传送If-Modified-Since报头，询问是否更改过，如果没有更改就返回304</p>
+</blockquote>
+</li>
+<li>4xx 客户端错误，请求包含语法错误或无法完成请求</li>
+</ol>
+<blockquote>
+<p>400 客户端请求的语法错误，服务器无法解析<br>401 请求用户身份验证<br>403 服务器拒绝客户端的请求<br>404 请求资源路径错误，服务器无法找到该资源<br>405 客户端请求的方法被禁止<br>407 请求代理身份验证<br>408 服务器等待客户端时间过长，请求超时<br>410 服务器以前有这个资源，但是现在没有了<br>416 客户端请求的范围无效</p>
+</blockquote>
+<ol start="5">
+<li>5xx 服务器错误，服务器在处理请求的过程中发生了错误</li>
+</ol>
+<blockquote>
+<p>500 服务器内部错误，无法完成请求<br>501 服务器不支持请求的功能<br>502 无效响应<br>503 Service Unavailable 由于服务器超载或者系统维护，服务器暂时无法响应请求<br>505 服务器不支持请求的协议版本，无法完成请求</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/http/" rel="tag"># http</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/30/three.js之入门学习/" rel="next" title="three.js之入门学习">
+                <i class="fa fa-chevron-left"></i> three.js之入门学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/23/CSS-选择器/" rel="prev" title="CSS-选择器">
+                CSS-选择器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Qiang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wz71014q" title="GitHub &rarr; https://github.com/wz71014q"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="rss &rarr; /atom.xml"><i class="fa fa-fw fa-globe"></i>rss</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#http的发展历史"><span class="nav-number">1.</span> <span class="nav-text">http的发展历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求方法"><span class="nav-number">2.</span> <span class="nav-text">请求方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http状态码"><span class="nav-number">3.</span> <span class="nav-text">http状态码</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '308e932f93156c7c01df',
+    clientSecret: '6e6359f046270cc0ee7c61fdd2d97ff3aba140a9',
+    repo: 'blogComment',
+    owner: 'wz71014q',
+    admin: ['wz71014q'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: ''
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+  <script src="/live2d-widget/autoload.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-p.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="基本盒模型每个人在学习CSS时一定会接触到盒模型，比如最基本的IE盒模型和W3C标准盒模型。文档进行布局（lay out）的时候，浏览器的渲染引擎会根据标准之一的 CSS 基础框盒模型（CSS basic box model），将所有元素表示为一个个矩形的盒子（box）。CSS 决定这些盒子的大小、位置以及属性（例如颜色、背景、边框尺寸…）。每个盒子由四个部分（或称区域）组成，其效用由它们各自的边">
+<meta name="keywords" content="CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS-可视化格式模型">
+<meta property="og:url" content="https://github.com/wz71014q/2019/03/23/CSS-可视化格式模型/index.html">
+<meta property="og:site_name" content="βloS">
+<meta property="og:description" content="基本盒模型每个人在学习CSS时一定会接触到盒模型，比如最基本的IE盒模型和W3C标准盒模型。文档进行布局（lay out）的时候，浏览器的渲染引擎会根据标准之一的 CSS 基础框盒模型（CSS basic box model），将所有元素表示为一个个矩形的盒子（box）。CSS 决定这些盒子的大小、位置以及属性（例如颜色、背景、边框尺寸…）。每个盒子由四个部分（或称区域）组成，其效用由它们各自的边">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/cssbox/W3CBox.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/cssbox/IEBox.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/render.gif">
+<meta property="og:updated_time" content="2019-09-26T03:31:07.506Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS-可视化格式模型">
+<meta name="twitter:description" content="基本盒模型每个人在学习CSS时一定会接触到盒模型，比如最基本的IE盒模型和W3C标准盒模型。文档进行布局（lay out）的时候，浏览器的渲染引擎会根据标准之一的 CSS 基础框盒模型（CSS basic box model），将所有元素表示为一个个矩形的盒子（box）。CSS 决定这些盒子的大小、位置以及属性（例如颜色、背景、边框尺寸…）。每个盒子由四个部分（或称区域）组成，其效用由它们各自的边">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wz71014q/img/master/cssbox/W3CBox.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://github.com/wz71014q/2019/03/23/CSS-可视化格式模型/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>CSS-可视化格式模型 | βloS</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">βloS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2019/03/23/CSS-可视化格式模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS-可视化格式模型
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-23 20:00:00" itemprop="dateCreated datePublished" datetime="2019-03-23T20:00:00+08:00">2019-03-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-26 11:31:07" itemprop="dateModified" datetime="2019-09-26T11:31:07+08:00">2019-09-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基本盒模型"><a href="#基本盒模型" class="headerlink" title="基本盒模型"></a>基本盒模型</h2><p>每个人在学习CSS时一定会接触到盒模型，比如最基本的IE盒模型和W3C标准盒模型。文档进行布局（lay out）的时候，浏览器的渲染引擎会根据标准之一的 CSS 基础框盒模型（CSS basic box model），将所有元素表示为一个个矩形的盒子（box）。CSS 决定这些盒子的大小、位置以及属性（例如颜色、背景、边框尺寸…）。每个盒子由四个部分（或称区域）组成，其效用由它们各自的边界（Edge）所定义。每个盒子有四个边界：内容边界 Content edge、内边距边界 Padding Edge、边框边界 Border Edge、外边框边界 Margin Edge。</p>
+<ul>
+<li>其中，两种盒模型都由内容、内边距、边框和外边距组成，可以用box-sizing属性进行切换；</li>
+<li>区别点是W3C标准盒模型的width和height只包含内容区Content，IE盒模型的width和height包含内容区、内边距Padding和边框Border。</li>
+<li>注意：background同时作用于内容区、内边距和边框！</li>
+</ul>
+<p>如图给一个div设置宽高都是100px，W3C标准盒模型跟IE盒模型表现出的实际的盒子<font color="red">内容区大小</font>是不一样的<br><a id="more"></a><br><img src="https://raw.githubusercontent.com/wz71014q/img/master/cssbox/W3CBox.png" alt="W3CBox"><br><img src="https://raw.githubusercontent.com/wz71014q/img/master/cssbox/IEBox.png" alt="IEBox"></p>
+<p>基本的盒模型可以帮助我们进行更准确的布局，但是页面渲染用到的盒模型可不止这些。最近看到一种以前不知道的垂直居中布局的代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span>我是居中的元素<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">css</span>:</span><br><span class="line"><span class="selector-class">.main</span>&#123;</span><br><span class="line">   <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">   <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main</span><span class="selector-pseudo">::after</span>&#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">''</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本来伪元素和伪类用的就不怎么样，看到这个就很不理解了。向大佬们请教，进而得知<font color="red">“可视化格式模型”</font>这种东西。想起之前看到浏览器渲染页面的视频，确实是一个一个的框框堆积起来:</p>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/render.gif" alt></p>
+<h2 id="什么是可视化格式模型？"><a href="#什么是可视化格式模型？" class="headerlink" title="什么是可视化格式模型？"></a>什么是可视化格式模型？</h2><p>官方解释是：它规定了客户端（浏览器）如何在媒介（显示器）中渲染文档树(document tree)。如上图，每个节点、元素都有属于自己的可见或不可见、有名或匿名的盒模型，可视化格式模型即规定了这些盒、框框如何整齐地排列在页面中，还有盒子之间的相互作用。</p>
+<h2 id="可视化格式模型"><a href="#可视化格式模型" class="headerlink" title="可视化格式模型"></a>可视化格式模型</h2><ol>
+<li>包含块CB(Containing block)</li>
+<li>控制框：块框、行框</li>
+<li>FC(Formatting Context, 格式化上下文)</li>
+</ol>
+<ul>
+<li><ol>
+<li>BFC(Block Formatting Context, 块级格式化上下文)</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>IFC(Inline Formatting Context, 行内格式上下文)</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>GFC(Grid Formatting Context, 网格布局格式化上下文)</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>FFC(Flex formatting contexts, 自适应格式上下文)</li>
+</ol>
+</li>
+</ul>
+<ol start="4">
+<li>定位体系(普通流、定位流、浮动流)</li>
+<li>浮动体系</li>
+</ol>
+<h3 id="包含块"><a href="#包含块" class="headerlink" title="包含块"></a>包含块</h3><ol>
+<li>根元素<html>的包含块是一个被称为初始包含块的矩形</html></li>
+<li>如果 position 属性为 static 或 relative ，包含块就是由它的最近的祖先块元素（比如说inline-block, block 或 list-item元素）或格式化上下文的<font color="red">内容区(只有content)</font>的边缘组成的。</li>
+<li>如果position属性为 absolute，包含块就是最近的position属性不为static值的祖先块元素的<font color="red">内边距区的边缘(content + padding)</font>组成(padding框)。</li>
+</ol>
+<p></p><p class="codepen" data-height="265" data-theme-id="0" data-default-tab="html,result" data-user="wz71014q" data-slug-hash="yWbxjp" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="yWbxjp"><br>  <span>See the Pen <a href="https://codepen.io/wz71014q/pen/yWbxjp/" target="_blank" rel="noopener"><br>  yWbxjp</a> by Qiang (<a href="https://codepen.io/wz71014q" target="_blank" rel="noopener">@wz71014q</a>)<br>  on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</span><br></p><p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<ol start="4">
+<li>如果 position 属性是 absolute 或 fixed，包含块也可能是由满足以下条件的最近父级元素的内边距区的边缘组成的：<blockquote>
+<p>transform 或 perspective 值不为 none；<br>will-change 值是 transform 或 perspective<br>filter 值不为 none 或 will-change 值是 filter (Firefox下).</p>
+</blockquote>
+</li>
+<li>如果 position 属性是 fixed，包含块就是由 viewport (in the case of continuous media) 或是组成的。</li>
+<li>CSS中的百分比是根据生成的框的包含块的高度计算的。如果未明确指定包含块的高度（即要使用百分比，包含块必须有宽度和高度），并且此元素未绝对定位，则百分比值将被视为“0”（对于“min-height”）或“none” （’max-height’）。</li>
+<li>如果要计算 height top 及 bottom 中的百分值，是通过包含块的 height 的值。如果包含块的 height 值会根据它的内容变化，而且包含块的 position 属性的值被赋予 relative 或 static ，那么，这些值的计算值为 0。要计算 width, left, right, padding, margin 这些属性由包含块的 width 属性的值来计算它的百分值。</li>
+<li>以百分比为单位时，包含块大小跟盒模型有关，主要受其padding属性影响。给两种盒模型的子元素设置width=50%，不同的盒模型，子元素的width是不同的。</li>
+</ol>
+<h3 id="控制框"><a href="#控制框" class="headerlink" title="控制框"></a>控制框</h3><h4 id="块框"><a href="#块框" class="headerlink" title="块框"></a>块框</h4><ol>
+<li>块级元素会生成一个块框（Block Box），块框会占据一整行，用来包含子box和生成的内容；</li>
+<li>块框同时也是一个块包含框（Containing Box），里面要么只包含块框，要么只包含行内框（不能混杂）；</li>
+<li>如果块框内部有块级元素也有行内元素，那么行内元素会被匿名块框包围。也就是说如果一个块框在其中包含另一个块框，那么我们强迫它只能包含块框，因此其他文本内容生成出来的都是匿名块框（而不是匿名行内框）</li>
+</ol>
+<p>如下，div为一个块框、p是另一个块框。上一行文本被包含在一个匿名块框内</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">   I'm some text!</span><br><span class="line">   <span class="tag">&lt;<span class="name">p</span>&gt;</span>I'm included by p!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="行内框"><a href="#行内框" class="headerlink" title="行内框"></a>行内框</h4><ul>
+<li>一个行内元素生成一个行内框；行内元素能排在一行，允许左右有其他元素。</li>
+</ul>
+<h3 id="FC"><a href="#FC" class="headerlink" title="FC"></a>FC</h3><ul>
+<li>格式化上下文定义框内部的元素渲染规则，它可以将框内部与外部隔开，外部样式不会影响内部</li>
+<li>包含块级格式化上下文BFC、行内格式化上下文IFC、网格布局格式化上下文GFC、自适应格式上下文FFC(Flex formatting contexts)</li>
+</ul>
+<h4 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h4><p>常用的创建块级格式化上下文的方式有：</p>
+<ul>
+<li>根元素或包含根元素的元素</li>
+<li>overflow不为visible的块元素。</li>
+<li>行内块元素(display = inline-bloc 会在元素外层产生IFC（所以这个元素可以通过text-align水平居中），当然，它的内部则按照BFC规则渲染)</li>
+<li>浮动元素</li>
+<li>绝对定位元素</li>
+<li>弹性元素(flex)<br>完整内容见<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">MDN</a></li>
+</ul>
+<p>BFC特点：</p>
+<ul>
+<li>清除浮动。内部box在垂直方向，一个接一个的放置，BFC区域不会与float box重叠</li>
+<li>外边距塌陷。box的垂直方向由margin决定，属于同一个BFC的两个box间的margin会重叠</li>
+<li>BFC就是页面上的一个隔离的独立容器，容器里的子元素不会影响到外面的元素，反之也是如此；</li>
+<li>计算BFC的高度时，浮动元素也参与计算（不会浮动塌陷如overflow：hidden清除浮动就是这个原理）；</li>
+</ul>
+<p></p><p class="codepen" data-height="265" data-theme-id="0" data-default-tab="html,result" data-user="wz71014q" data-slug-hash="JqNeVL" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="JqNeVL"><br>  <span>See the Pen <a href="https://codepen.io/wz71014q/pen/JqNeVL/" target="_blank" rel="noopener"><br>  JqNeVL</a> by Qiang (<a href="https://codepen.io/wz71014q" target="_blank" rel="noopener">@wz71014q</a>)<br>  on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</span><br></p><p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h4 id="IFC"><a href="#IFC" class="headerlink" title="IFC"></a>IFC</h4><ul>
+<li>行内元素可以产生行内格式化上下文</li>
+<li>行内框是水平方向一个接一个排列，起点是包含块的顶部。</li>
+<li>行内格式化上下文高度由其包含行内元素中最高的实际高度计算而来(不受到竖直方向的padding/margin影响）。水平方向上的margin，border和padding在框之间会保留。框在垂直方向上可以以不同的方式对齐：顶部、底部对齐或根据其中文字的基线对齐)</li>
+<li>最高的元素高度未设置时，行内框的高度由line-height决定，而其内部的包含块之间的可以高度各不相同(比如只含文本的行框高度与包含图片的行框高度之间)。line-height是上下两行文本的基线之间的距离</li>
+</ul>
+<h4 id="FFC"><a href="#FFC" class="headerlink" title="FFC"></a>FFC</h4><p>自适应格式化上下文，当设置display为flex时，内部生成一个BFC。设置display为inline-flex时，内部生成一个IFC</p>
+<h4 id="GFC"><a href="#GFC" class="headerlink" title="GFC"></a>GFC</h4><p>网格布局格式化上下文，当为一个元素设置display值为grid的时候，此元素将会获得一个独立的渲染区域</p>
+<p>最后，解释一下为什么上面的元素可以居中。行内框的高度能够容纳它包含的所有框,当框的高度小于行内框的高度(例如,如果框是baseline对齐)时,框的竖直对齐方式由vertical-align属性决定。所以class = main的div的伪元素跟“我是居中的元素”形成了一个行内框，而设置行内框的对齐方式为middle，就居中了。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://segmentfault.com/a/1190000014872270" target="_blank" rel="noopener">CSS-可视化格式模型</a><br><a href="https://segmentfault.com/a/1190000009308818" target="_blank" rel="noopener">行内格式上下文</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/All_About_The_Containing_Block" target="_blank" rel="noopener">MDN-布局和包含块</a><br><a href="https://www.w3.org/TR/CSS21/visudet.html#root-height" target="_blank" rel="noopener">https://www.w3.org/TR/CSS21/visudet.html#root-height</a><br>《CSS 世界》– 张鑫旭</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/23/CSS-loading/" rel="next" title="CSS-loading">
+                <i class="fa fa-chevron-left"></i> CSS-loading
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/23/CSS-回流与重绘/" rel="prev" title="CSS-回流(reflow)与重绘(repaint)">
+                CSS-回流(reflow)与重绘(repaint) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Qiang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wz71014q" title="GitHub &rarr; https://github.com/wz71014q"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="rss &rarr; /atom.xml"><i class="fa fa-fw fa-globe"></i>rss</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本盒模型"><span class="nav-number">1.</span> <span class="nav-text">基本盒模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是可视化格式模型？"><span class="nav-number">2.</span> <span class="nav-text">什么是可视化格式模型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化格式模型"><span class="nav-number">3.</span> <span class="nav-text">可视化格式模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#包含块"><span class="nav-number">3.1.</span> <span class="nav-text">包含块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制框"><span class="nav-number">3.2.</span> <span class="nav-text">控制框</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#块框"><span class="nav-number">3.2.1.</span> <span class="nav-text">块框</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#行内框"><span class="nav-number">3.2.2.</span> <span class="nav-text">行内框</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FC"><span class="nav-number">3.3.</span> <span class="nav-text">FC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BFC"><span class="nav-number">3.3.1.</span> <span class="nav-text">BFC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IFC"><span class="nav-number">3.3.2.</span> <span class="nav-text">IFC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FFC"><span class="nav-number">3.3.3.</span> <span class="nav-text">FFC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GFC"><span class="nav-number">3.3.4.</span> <span class="nav-text">GFC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '308e932f93156c7c01df',
+    clientSecret: '6e6359f046270cc0ee7c61fdd2d97ff3aba140a9',
+    repo: 'blogComment',
+    owner: 'wz71014q',
+    admin: ['wz71014q'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: ''
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+  <script src="/live2d-widget/autoload.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

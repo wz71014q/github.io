@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-p.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="解析过程1、DNS解析2、TCP连接3、发起http请求4、服务器处理http请求5、服务器响应http请求6、浏览器渲染页面7、连接结束 DNS解析&amp;emsp;&amp;emsp;输入网址，浏览器并不知道要去哪里找资源，需要DNS递归查询对应IP  DNS递归查询首先是在本地服务器进行查询，本地服务器找不到后再向根域名服务器查询，根域名服务器找不到再向上一级顶级com域名服务器查找。直到最终找到并返回I">
+<meta name="keywords" content="JS,http,个人笔记,面试,网络,https,TCP,DNS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试题-从输入url到页面展示发生了什么">
+<meta property="og:url" content="https://github.com/wz71014q/2019/08/06/面试题-从输入url到页面展示发生了什么/index.html">
+<meta property="og:site_name" content="βloS">
+<meta property="og:description" content="解析过程1、DNS解析2、TCP连接3、发起http请求4、服务器处理http请求5、服务器响应http请求6、浏览器渲染页面7、连接结束 DNS解析&amp;emsp;&amp;emsp;输入网址，浏览器并不知道要去哪里找资源，需要DNS递归查询对应IP  DNS递归查询首先是在本地服务器进行查询，本地服务器找不到后再向根域名服务器查询，根域名服务器找不到再向上一级顶级com域名服务器查找。直到最终找到并返回I">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/TCP/structure.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/TCP/connect.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/TCP/break.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/osi/osi.png">
+<meta property="og:updated_time" content="2019-09-26T03:31:07.518Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面试题-从输入url到页面展示发生了什么">
+<meta name="twitter:description" content="解析过程1、DNS解析2、TCP连接3、发起http请求4、服务器处理http请求5、服务器响应http请求6、浏览器渲染页面7、连接结束 DNS解析&amp;emsp;&amp;emsp;输入网址，浏览器并不知道要去哪里找资源，需要DNS递归查询对应IP  DNS递归查询首先是在本地服务器进行查询，本地服务器找不到后再向根域名服务器查询，根域名服务器找不到再向上一级顶级com域名服务器查找。直到最终找到并返回I">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wz71014q/img/master/TCP/structure.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://github.com/wz71014q/2019/08/06/面试题-从输入url到页面展示发生了什么/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>面试题-从输入url到页面展示发生了什么 | βloS</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">βloS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2019/08/06/面试题-从输入url到页面展示发生了什么/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面试题-从输入url到页面展示发生了什么
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-06 19:08:00" itemprop="dateCreated datePublished" datetime="2019-08-06T19:08:00+08:00">2019-08-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-26 11:31:07" itemprop="dateModified" datetime="2019-09-26T11:31:07+08:00">2019-09-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JS/" itemprop="url" rel="index"><span itemprop="name">JS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/http/" itemprop="url" rel="index"><span itemprop="name">http</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人笔记/" itemprop="url" rel="index"><span itemprop="name">个人笔记</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/面试/" itemprop="url" rel="index"><span itemprop="name">面试</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络/" itemprop="url" rel="index"><span itemprop="name">网络</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/https/" itemprop="url" rel="index"><span itemprop="name">https</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/TCP/" itemprop="url" rel="index"><span itemprop="name">TCP</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DNS/" itemprop="url" rel="index"><span itemprop="name">DNS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="解析过程"><a href="#解析过程" class="headerlink" title="解析过程"></a>解析过程</h2><p>1、DNS解析<br>2、TCP连接<br>3、发起http请求<br>4、服务器处理http请求<br>5、服务器响应http请求<br>6、浏览器渲染页面<br>7、连接结束</p>
+<h3 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h3><p>&emsp;&emsp;输入网址，浏览器并不知道要去哪里找资源，需要DNS递归查询对应IP</p>
+<ol>
+<li>DNS递归查询首先是在本地服务器进行查询，本地服务器找不到后再向根域名服务器查询，根域名服务器找不到再向上一级顶级com域名服务器查找。直到最终找到并返回IP，然后本地域名服务器会将该ip缓存起来，供下次使用。比如输入<a href="http://www.google.com，那么查询过程为.-&gt;.com-&gt;google.com-&gt;www.google.com" target="_blank" rel="noopener">www.google.com，那么查询过程为.-&gt;.com-&gt;google.com-&gt;www.google.com</a></li>
+<li>此处优化方法：<br>DNS缓存：浏览器、系统（host文件）、路由器、ISP DNS缓存（互联网提供商）、本地域名服务器等都有缓存<br>DNS负载均衡：根据地理位置、服务器负载量等来选择最合适的一个服务器来进行查询</li>
+</ol>
+<h3 id="TCP连接：三次握手，四次挥手"><a href="#TCP连接：三次握手，四次挥手" class="headerlink" title="TCP连接：三次握手，四次挥手"></a>TCP连接：三次握手，四次挥手</h3><h4 id="TCP报文结构："><a href="#TCP报文结构：" class="headerlink" title="TCP报文结构："></a>TCP报文结构：</h4><a id="more"></a>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/TCP/structure.jpg" alt="TCP-structure"></p>
+<p>TCP报文结构中有固定的20字节的首部，里面有源端口、目的端口。序号、确认号、校验和、数据偏移等</p>
+<ul>
+<li>seq（序号）: TCP连接的数据字节流中的每一个字节都有一个序号，seq表示的是本报文发送的第一个字节的序号。</li>
+<li>ack(确认号)：表示期望收到的下一个报文段第一个字节的编号</li>
+<li>标志位SYN（同步标识）：本bit位为1时表示发送的是一个连接请求或者连接接受的报文</li>
+<li>标志位ACK（确认标识）：本bit位为1 表示确认号有效，表示确实收到seq为x的包，下次会回复ack = x + 1的值</li>
+<li>标志位FIN（完成标识）：本bit位为1时，释放一个连接。表示发送端的数据已全部发送，要求释放传输通道。</li>
+<li>标志位RST（复位标识）：为1时表示本次TCP连接出现严重错误，需要重新连接</li>
+<li>标志位PSH（推送标识）：推送位。</li>
+<li>标志位URG（紧急标识）：紧急bit位，表示紧急指针有效,这意味着不必等待前段数据被响应处理完即可发送给接收端</li>
+</ul>
+<h4 id="三次握手过程"><a href="#三次握手过程" class="headerlink" title="三次握手过程"></a>三次握手过程</h4><p>从网上盗的图：</p>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/TCP/connect.jpg" alt="TCP-connect"></p>
+<ol>
+<li>白话讲解</li>
+</ol>
+<ul>
+<li>第一次握手：客户端：喂，听得到吗？</li>
+<li>第二次握手：服务器：听得到，你听得到我吗？</li>
+<li>第三次握手：客户端：听得到，咱们开始传输吧。</li>
+</ul>
+<ol start="2">
+<li>专业讲解：</li>
+</ol>
+<ul>
+<li>第一次握手：客户端主动发起请求，第一个报文首部标志位为：SYN=1，seq=x</li>
+<li>第二次握手：服务端表示收到请求并响应请求：SYN=1, ack=x+1,seq=y,ACK=1</li>
+<li>第三次握手：客户端向服务器发送确认报文：seq=y+1, ACK=1。此时连接已建立</li>
+</ul>
+<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h4><p><img src="https://raw.githubusercontent.com/wz71014q/img/master/TCP/break.jpg" alt="TCP-break"></p>
+<ol>
+<li>白话讲解（假设客户端先请求断开）：</li>
+</ol>
+<ul>
+<li>第一次挥手：客户端：我说完了，咱们断开吧</li>
+<li>第二次挥手：服务端：收到，我还没说完，￥@#<em>（%&amp;……</em></li>
+<li>第三次挥手：服务端：我说完了，咱们断开吧</li>
+<li>第四次挥手：客户端：收到！(此时已断开，如果长时间没收到答复，也会默认断开)</li>
+</ul>
+<ol start="2">
+<li>专业解释：</li>
+</ol>
+<ul>
+<li>第一次挥手：客户端：FIN=1，seq=u，客户端已停止向服务端发送数据</li>
+<li>第二次挥手：服务端：ack=u+1,seq=v，客户端已停止，但服务端还在发送数据</li>
+<li>第三次挥手：服务端：内容发送完成后，在最后一段报文的首部：FIN=1，ACK=1，ack=u+1，seq=w，并且不再发送数据</li>
+<li>第四次挥手：客户端：对服务器应答，表示确认断开,ACK=1，seq=u+1，ack=w+1</li>
+</ul>
+<h4 id="TCP与UDP的区别"><a href="#TCP与UDP的区别" class="headerlink" title="TCP与UDP的区别"></a>TCP与UDP的区别</h4><p>UDP报文结构：</p>
+<p>16位源端口，16位目标端口，16位UDP长度，16位UDP校验和，数据</p>
+<p>TCP是面向连接的，传输之前必须先握手，UPD不面向连接，直接传就完事了，但是对方收没收到是没底的。因此TCP更安全可靠，UDP效率更高</p>
+<h3 id="OSI五层模型"><a href="#OSI五层模型" class="headerlink" title="OSI五层模型"></a>OSI五层模型</h3><p><img src="https://raw.githubusercontent.com/wz71014q/img/master/osi/osi.png" alt="osi-module"></p>
+<p>TCP属于传输层，TCP连接建立起来后会通知上层应用，进行其他活动。根据OSI(Open System Interconnect，开放式系统互联)五层模型，它的上层是应用层，下层还有网络层、数据链路层和物理层。其中，发送方从上到下一层层包装，分别依次序加上TCP首部、IP首部、以太网首部，通过物理层传输到接收方，接收方再由下到上逐层解析，最后到达应用层。</p>
+<h3 id="http请求"><a href="#http请求" class="headerlink" title="http请求"></a>http请求</h3><h4 id="http请求-1"><a href="#http请求-1" class="headerlink" title="http请求"></a>http请求</h4><p>TCP连接建立起来后开始发送一个http请求，http请求报文由请求行(request line)、请求头(header)、空行和请求数据4个部分组成</p>
+<ol>
+<li>请求行</li>
+</ol>
+<ul>
+<li>请求方法：GET(http/0.9)，POST(http/1.0)，HEAD(http/1.0)，PUT(http/1.1)，DELETE(http/1.1)，OPTIONS(http/1.1)，TRACE(http/1.1)，CONNECT(http/1.1)</li>
+<li>请求地址：URL(统一资源定位符)，组成格式：&lt;协议(http/https)&gt;://<host>:&lt;端口&gt;/&lt;路径&gt;</host></li>
+<li>协议版本：http0.9、http1.0</li>
+</ul>
+<ol start="2">
+<li>请求头</li>
+</ol>
+<p>常见http请求头：</p>
+<ul>
+<li>Host: 服务器IP地址或域名</li>
+<li>User-Agent: 发送请求的客户端系统和浏览器信息</li>
+<li>Connection: Keep-Alive 等，表示连接状态</li>
+<li>Accept-Encoding: 通知服务端可以发送的数据压缩格式</li>
+<li>Accept-Charset: 通知服务端可以发送的编码格式</li>
+<li>Accept-Language: 通知服务端可以发送的语言</li>
+<li>Cache-Control: 通过指定指令来实现缓存机制。比如private，public、no-cache</li>
+<li>Cookie: 存储一些用户信息、sessionId等</li>
+<li>Range: byte=0-5 指定第一个字节和最后一个字节的位置，告诉服务器自己想提取哪些字节</li>
+<li>Content-Security-Policy 用来开启CSP(内容安全策略)</li>
+</ul>
+<ol start="3">
+<li>请求数据</li>
+</ol>
+<p>可选有或者没有，比如name=Alice</p>
+<h4 id="http响应"><a href="#http响应" class="headerlink" title="http响应"></a>http响应</h4><p>http响应报文主要包含状态行、响应头部、空行及响应数据组成。</p>
+<ol>
+<li>状态行：主要由协议版本、状态码、状态码描述组成</li>
+</ol>
+<ul>
+<li>协议版本：http/1.1</li>
+<li>状态码：见<a href="https://wz71014q.github.io/2018/08/09/http%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2/" target="_blank" rel="noopener">http发展历史</a>;</li>
+<li>状态码描述：当前状态的描述。比如: 200 ok</li>
+</ul>
+<ol start="2">
+<li>响应头部</li>
+</ol>
+<p>常见http响应头：</p>
+<ul>
+<li>Content-Type: text/html;charset=UTF-8 告诉客户端，资源文件的类型，还有字符编码，客户端据此进行解码</li>
+<li>Content-Encoding: 告诉客户端，服务端发送的资源都是gzip编码的</li>
+<li>Date: 服务器发送资源的GMT(格林尼治时间)时间</li>
+<li>Server: 服务器和相对应的版本</li>
+<li>Transfer-Encoding: chunked 通知客户端，服务器发送的资源是分块发送的</li>
+<li>Last-Modified: 最后一次更新时间</li>
+<li>Connection: Keep-Alive 等，表示连接状态</li>
+<li>Access-Control-Allow-Origin: *  表示所有网站可以跨域资源共享</li>
+<li>Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS 允许哪些方法访问</li>
+<li>Access-Control-Allow-Credentials: true 是否允许发送Cookie</li>
+<li>Content-Range 响应覆盖的范围和整体长度</li>
+<li>ETag 判断服务器资源是否更改</li>
+<li>Refresh 用于重定向</li>
+</ul>
+<ol start="3">
+<li>响应数据</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK　　<span class="comment">// 状态行</span></span><br><span class="line"><span class="built_in">Date</span>: Sun, <span class="number">17</span> Mar <span class="number">2017</span> <span class="number">08</span>:<span class="number">12</span>:<span class="number">54</span> GMT　　<span class="comment">// 响应头部</span></span><br><span class="line">Server: Apache/<span class="number">2.2</span><span class="number">.8</span> (Win32) PHP/<span class="number">5.2</span><span class="number">.5</span></span><br><span class="line">X-Powered-By: PHP/<span class="number">5.2</span><span class="number">.5</span></span><br><span class="line"><span class="built_in">Set</span>-Cookie: PHPSESSID=c0huq7pdkmm5gg6osoe3mgjmm3; path=<span class="regexp">/</span></span><br><span class="line"><span class="regexp">Expires: Thu, 19 Nov 1981 08:52:00 GMT</span></span><br><span class="line"><span class="regexp">Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0</span></span><br><span class="line"><span class="regexp">Pragma: no-cache</span></span><br><span class="line"><span class="regexp">Content-Length: 4393</span></span><br><span class="line"><span class="regexp">Keep-Alive: timeout=5, max=100</span></span><br><span class="line"><span class="regexp">Connection: Keep-Alive</span></span><br><span class="line"><span class="regexp">Content-Type: text/</span>html; charset=utf<span class="number">-8</span></span><br><span class="line"><span class="comment">// 空行</span></span><br><span class="line"><span class="comment">// 响应数据</span></span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;HTTP响应示例&lt;title&gt;</span><br><span class="line">&lt;<span class="regexp">/head&gt;</span></span><br><span class="line"><span class="regexp">&lt;body&gt;</span></span><br><span class="line"><span class="regexp">Hello HTTP!</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>http缓存优化方案</li>
+</ol>
+<ul>
+<li><p>在一次请求中，服务器会返回客户端Last-Modified时间，那么下次请求中，客户端就可以在请求头中添加If-Modified-Since+时间，如果没变，服务端会回状态码304，那么客户端就可以继续使用本地缓存展示内容。如果改变了，就返回200，并返回新的资源。</p>
+</li>
+<li><p>或者使用ETag（资源标识符）。在一次请求中，服务端会返回ETag，它是一串根据内容生成的字符串。下次请求时，客户端会加上请求头：<br>If-None-Match：33a64df551425fcc55e4d42a148795d9f25f89d4，服务端将该值与资源的ETag进行比较，如果相同，返回304，如果不同，就返回200和新的资源。</p>
+</li>
+</ul>
+<h3 id="https请求"><a href="#https请求" class="headerlink" title="https请求"></a>https请求</h3><p>https与http的区别在于，应用层中，应用数据先经过SSL/TLS进行加密，再经过TCP连接</p>
+<h4 id="加密原理"><a href="#加密原理" class="headerlink" title="加密原理"></a>加密原理</h4><p>&emsp;&emsp;<a href="https://developers.weixin.qq.com/community/develop/article/doc/000046a5fdc7802a15f7508b556413" target="_blank" rel="noopener">安利这篇文章</a></p>
+<p>&emsp;&emsp;客户端在向服务端发送请求时，服务端会返回自己的公钥（保险箱），客户端将数据根据服务端的公钥加密（把数据放在保险箱里），再返回给服务端，服务端用之前给客户端公钥相匹配的私钥（保险箱钥匙）解密，即得到传输的数据。<br>&emsp;&emsp;为了保证服务端返回的公钥(保险箱)没有被中间黑客替换，需要证明该公钥（保险箱）确实是服务端给的。这时候数字证书(身份证)登场了。数字证书(身份证)是政府机构或者一些受信任的组织（证明人）为网站做的证明。它是CA将私钥发放给受信任的机构，公钥会发给各客户端。服务端在给客户端发送公钥时就可以用该证书加密公钥，发送给客户端，客户端用CA的公钥解密并验证完整性，通过后再传输数据。所以，流程变化如下：</p>
+<ol>
+<li>客户端发送请求</li>
+<li>服务端返回自己的用数字证书加密过的公钥</li>
+<li>客户端解析证书，包括正确性和完整性</li>
+<li>传送加密信息</li>
+<li>服务端解密信息，并使用客户端传给服务端的私钥加密信息</li>
+<li>服务端向客户端传输加密后的信息</li>
+<li>客户端解密</li>
+</ol>
+<h4 id="SSL-TLS握手过程"><a href="#SSL-TLS握手过程" class="headerlink" title="SSL/TLS握手过程"></a>SSL/TLS握手过程</h4><ol>
+<li>客户端向服务端发送Client Hello信息，里面包含一个客户端生成的随机数Random1，支持的加密套件、SSL版本</li>
+<li>服务端返回Server Hello消息。服务端根据刚才客户端上报的支持的加密套件，确定一种加密方式，在这条信息中一块传给客户端。同时生成另一个随机数一块传给客户端</li>
+<li>Certificate: 服务端将自己的证书下发给客户端，客户端用对应公钥解密，取出其中的公钥</li>
+<li>Certificate Request(可选): 服务端要求客户端上报证书。</li>
+<li>Sever Hello Done: 服务端通知客户端 Server Hello 结束</li>
+<li>Certificate Verify: 客户端收到证书后，先从CA验证证书是否合法，合法后取出公钥。再生成一个随机数Random3，用公钥非对称加密(RSA等)Random3，生成PreMaster Key。</li>
+<li>Client Key Exchange：客户端根据服务器传来的公钥生成了 PreMaster Key后，将这个 key 传给服务端，服务端再用自己的私钥解出这个 PreMaster Key 得到客户端生成的 Random3。至此，客户端和服务端都拥有 Random1 + Random2 + Random3，两边再根据同样的算法就可以生成一份秘钥，握手结束后的应用层数据都是使用这个秘钥进行对称加密。</li>
+</ol>
+<h3 id="页面渲染"><a href="#页面渲染" class="headerlink" title="页面渲染"></a>页面渲染</h3><p>浏览器拿到HTML文档后，开始解析并渲染页面</p>
+<h4 id="渲染过程"><a href="#渲染过程" class="headerlink" title="渲染过程"></a>渲染过程</h4><ol>
+<li>解析HTML生成DOM(文档对象模型)树</li>
+<li>解析CSS生成CSSOM(CSS对象模型)树</li>
+<li>将DOM树与CSSOM树结合为渲染树</li>
+<li>根据渲染树设计布局(layout)，计算节点大小、布局</li>
+<li>绘制节点</li>
+</ol>
+<h4 id="JS解析"><a href="#JS解析" class="headerlink" title="JS解析"></a>JS解析</h4><p>浏览器的内核是多线程的，一个浏览器至少会有三个线程：javascript处理线程、GUI渲染线程、事件触发线程</p>
+<ul>
+<li>JavaScript是事件驱动型的单线程语言，js处理引擎也是单线程，js一直等待着任务队列中任务的到来，然后加以处理</li>
+<li>GUI渲染线程负责浏览器的渲染工作，浏览器发生回流或重绘时该线程就会触发。GUI线程与JavaScript线程是互斥的。只要JavaScript线程执行，GUI渲染线程就会挂起。一般是等待JavaScript线程执行结束，再从等待队列中取出GUI渲染线程执行。</li>
+<li>事件触发线程。当一个事件被触发时，该线程会把该事件添加进事件触发队列的队尾，等待js引擎处理。</li>
+<li>JS文件默认是阻塞进程的，所以为了用户体验，最佳实践是link标签放head标签而script放body底部。或者加上defer，延迟加载；加上async，异步加载。</li>
+</ul>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><p><a href="https://wz71014q.github.io/2019/03/23/CSS-%E5%9B%9E%E6%B5%81%E4%B8%8E%E9%87%8D%E7%BB%98/" target="_blank" rel="noopener">回流与重绘</a></p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://www.jianshu.com/p/668970142765" target="_blank" rel="noopener">https://www.jianshu.com/p/668970142765</a><br><a href="https://segmentfault.com/a/1190000013522717" target="_blank" rel="noopener">https://segmentfault.com/a/1190000013522717</a><br><a href="https://juejin.im/post/5c17d3cd5188250d9e604628" target="_blank" rel="noopener">https://juejin.im/post/5c17d3cd5188250d9e604628</a><br><a href="https://my.oschina.net/elitetao/blog/781227" target="_blank" rel="noopener">https://my.oschina.net/elitetao/blog/781227</a><br><a href="https://developers.weixin.qq.com/community/develop/article/doc/000046a5fdc7802a15f7508b556413" target="_blank" rel="noopener">https://developers.weixin.qq.com/community/develop/article/doc/000046a5fdc7802a15f7508b556413</a><br><a href="https://www.jianshu.com/p/7158568e4867" target="_blank" rel="noopener">https://www.jianshu.com/p/7158568e4867</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/http/" rel="tag"># http</a>
+          
+            <a href="/tags/个人笔记/" rel="tag"># 个人笔记</a>
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+            <a href="/tags/https/" rel="tag"># https</a>
+          
+            <a href="/tags/TCP/" rel="tag"># TCP</a>
+          
+            <a href="/tags/DNS/" rel="tag"># DNS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/06/面试题目之js连续赋值/" rel="next" title="js面试题目之连续赋值">
+                <i class="fa fa-chevron-left"></i> js面试题目之连续赋值
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/10/Vue双向绑定/" rel="prev" title="Vue双向绑定">
+                Vue双向绑定 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Qiang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wz71014q" title="GitHub &rarr; https://github.com/wz71014q"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="rss &rarr; /atom.xml"><i class="fa fa-fw fa-globe"></i>rss</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解析过程"><span class="nav-number">1.</span> <span class="nav-text">解析过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS解析"><span class="nav-number">1.1.</span> <span class="nav-text">DNS解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP连接：三次握手，四次挥手"><span class="nav-number">1.2.</span> <span class="nav-text">TCP连接：三次握手，四次挥手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP报文结构："><span class="nav-number">1.2.1.</span> <span class="nav-text">TCP报文结构：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三次握手过程"><span class="nav-number">1.2.2.</span> <span class="nav-text">三次握手过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四次挥手"><span class="nav-number">1.2.3.</span> <span class="nav-text">四次挥手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP与UDP的区别"><span class="nav-number">1.2.4.</span> <span class="nav-text">TCP与UDP的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSI五层模型"><span class="nav-number">1.3.</span> <span class="nav-text">OSI五层模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http请求"><span class="nav-number">1.4.</span> <span class="nav-text">http请求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#http请求-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">http请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#http响应"><span class="nav-number">1.4.2.</span> <span class="nav-text">http响应</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#https请求"><span class="nav-number">1.5.</span> <span class="nav-text">https请求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加密原理"><span class="nav-number">1.5.1.</span> <span class="nav-text">加密原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSL-TLS握手过程"><span class="nav-number">1.5.2.</span> <span class="nav-text">SSL/TLS握手过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面渲染"><span class="nav-number">1.6.</span> <span class="nav-text">页面渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#渲染过程"><span class="nav-number">1.6.1.</span> <span class="nav-text">渲染过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JS解析"><span class="nav-number">1.6.2.</span> <span class="nav-text">JS解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意点"><span class="nav-number">1.6.3.</span> <span class="nav-text">注意点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">2.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '308e932f93156c7c01df',
+    clientSecret: '6e6359f046270cc0ee7c61fdd2d97ff3aba140a9',
+    repo: 'blogComment',
+    owner: 'wz71014q',
+    admin: ['wz71014q'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: ''
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+  <script src="/live2d-widget/autoload.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

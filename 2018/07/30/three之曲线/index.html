@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-p.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="曲线属性11、 .arcLengthDivisions  当通过.getLengths计算曲线的累积段长度时，此值决定了分割的数量。为了确保在使用.getSpacedPoint等方法时的精度，如果曲线非常大，建议增加.arcLengthDivision属性。默认值为200。    方法123456789101112131、.getPoint ( t : Float, optionalTarget">
+<meta name="keywords" content="JS,three.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="three.js之曲线">
+<meta property="og:url" content="https://github.com/wz71014q/2018/07/30/three之曲线/index.html">
+<meta property="og:site_name" content="βloS">
+<meta property="og:description" content="曲线属性11、 .arcLengthDivisions  当通过.getLengths计算曲线的累积段长度时，此值决定了分割的数量。为了确保在使用.getSpacedPoint等方法时的精度，如果曲线非常大，建议增加.arcLengthDivision属性。默认值为200。    方法123456789101112131、.getPoint ( t : Float, optionalTarget">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-26T03:31:07.515Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="three.js之曲线">
+<meta name="twitter:description" content="曲线属性11、 .arcLengthDivisions  当通过.getLengths计算曲线的累积段长度时，此值决定了分割的数量。为了确保在使用.getSpacedPoint等方法时的精度，如果曲线非常大，建议增加.arcLengthDivision属性。默认值为200。    方法123456789101112131、.getPoint ( t : Float, optionalTarget">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://github.com/wz71014q/2018/07/30/three之曲线/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>three.js之曲线 | βloS</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">βloS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2018/07/30/three之曲线/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">three.js之曲线
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-30 20:34:00" itemprop="dateCreated datePublished" datetime="2018-07-30T20:34:00+08:00">2018-07-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-26 11:31:07" itemprop="dateModified" datetime="2019-09-26T11:31:07+08:00">2019-09-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JS/" itemprop="url" rel="index"><span itemprop="name">JS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/three-js/" itemprop="url" rel="index"><span itemprop="name">three.js</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="曲线"><a href="#曲线" class="headerlink" title="曲线"></a>曲线</h1><h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、 .arcLengthDivisions</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当通过.getLengths计算曲线的累积段长度时，此值决定了分割的数量。为了确保在使用.getSpacedPoint等方法时的精度，如果曲线非常大，建议增加.arcLengthDivision属性。默认值为200。  </p>
+</blockquote>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、.getPoint ( t : Float, <span class="attr">optionalTarget</span> : Vector ) : Vector  </span><br><span class="line"><span class="comment">// getPoint方法返回在curve对象上t点(取值范围0.0-1.0之间)的矢量.</span></span><br><span class="line">t: 来获取在任意百分比下的ｔ点的向量，百分比的值限于[<span class="number">0</span><span class="number">-1</span>]。<span class="number">0</span>是从路径的第一个点开始算起，<span class="number">1</span>是最后一点,t=<span class="number">0.6</span>表示从起点开始的<span class="number">60</span>%处的点的向量。  </span><br><span class="line">optionalTarget:　(可选)如果指定，结果将复制到此向量，否则将创建一个新的向量。  </span><br><span class="line"><span class="number">2</span>、.getPointAt ( u : Float, <span class="attr">optionalTarget</span> : Vector ) : Vector</span><br><span class="line"><span class="comment">// 根据弧长返回曲线上给定位置的矢量。  </span></span><br><span class="line">u: u的取值范围是<span class="number">0.0</span> - <span class="number">1.0</span>, 将曲线作为一个整体, 一段弧长占曲线总长度的百分比。  </span><br><span class="line"><span class="number">3</span>、.getPoints ( divisions : Integer ) : <span class="built_in">Array</span>  </span><br><span class="line"><span class="comment">// getPoints方法根据divisions将曲线等分,获得在曲线对象上等分点的点序列.如果没有设置参数divisions,默认初始化为5等分.返回对应等分线段顶点的坐标数组.数组长度为(divisions + 1)  </span></span><br><span class="line">divisions -- 将曲线分成的段数，默认是<span class="number">5</span>  </span><br><span class="line"><span class="number">4</span>、.getSpacedPoints ( divisions : Integer ) : <span class="built_in">Array</span>  </span><br><span class="line"><span class="comment">// getSpacedPoints方法根据divisions将曲线等分,获得在曲线对象上等分点的点序列.如果没有设置参数divisions,默认初始化为5等分.返回对应等分线段端点在曲线上的相对位置数组,用弧长表示.  </span></span><br><span class="line"><span class="comment">// 获得一系列顶点的相对位置的数组.调用getPointAt方法。</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>源码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">THREE.Curve.prototype.getSpacedPoints = <span class="function"><span class="keyword">function</span> (<span class="params"> divisions </span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ( ! divisions ) divisions = <span class="number">5</span>;</span><br><span class="line">  <span class="keyword">var</span> d, pts = [];</span><br><span class="line">  <span class="keyword">for</span> ( d = <span class="number">0</span>; d &lt;= divisions; d ++ ) &#123;</span><br><span class="line">    pts.push( <span class="keyword">this</span>.getPointAt(d / divisions ));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> pts;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>5、.getLength () : Float<br>获取曲线的长度<br>6、.getLengths ( divisions : Integer ) : Array<br>将曲线分成divisions等份，从起点开始获取每个等分点距离起点的长度，数组长度为divisions + 1<br>e.g.: [0, 32.40468003621915, 64.70282683002952, 96.89129617675769, 129.189442970568, 161.59412300678719]<br>7、.updateArcLengths () : null<br>// 更新累积段距离缓存。调用getLengths方法,更新长度数组.<br>8、.getUtoTmapping ( u : Float, distance : Float ) : Float<br>// 输入u(0~1),将曲线作为一个整体,一段弧长占曲线总长度的百分比。返回这个点处的百分比<br>distance: 如果设置长度值, 则以该段长度为总长度，计算u占这段曲线的百分比，返回对应点的占比。<br>9、.getTangent ( t : Float ) : Vector<br>// getTangent方法将返回一个点t在曲线上位置向量的法线向量  </p>
+<p>源码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">THREE.Curve.prototype.getTangent = <span class="function"><span class="keyword">function</span>(<span class="params"> t </span>) </span>&#123;</span><br><span class="line">  <span class="comment">//这里为了给向量设定一个方向.</span></span><br><span class="line">  <span class="keyword">var</span> delta = <span class="number">0.0001</span>; <span class="comment">// 设置一个delta值</span></span><br><span class="line">  <span class="keyword">var</span> t1 = t - delta; <span class="comment">// t点减delta值,</span></span><br><span class="line">  <span class="keyword">var</span> t2 = t + delta; <span class="comment">// t点加delta值.</span></span><br><span class="line">  <span class="comment">// tan(0)和tan(1)无法取值，所以采用近似值</span></span><br><span class="line">  <span class="keyword">if</span> ( t1 &lt; <span class="number">0</span> ) t1 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( t2 &gt; <span class="number">1</span> ) t2 = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">var</span> pt1 = <span class="keyword">this</span>.getPoint( t1 );</span><br><span class="line">  <span class="keyword">var</span> pt2 = <span class="keyword">this</span>.getPoint( t2 );</span><br><span class="line">  <span class="keyword">var</span> vec = pt2.clone().sub(pt1); <span class="comment">// pt2向量减去pt1向量</span></span><br><span class="line">  <span class="keyword">return</span> vec.normalize(); <span class="comment">// 单位化  </span></span><br><span class="line">  <span class="comment">//返回一个点t在曲线上位置向量的法线向量.  </span></span><br><span class="line"><span class="number">10</span>、.getTangentAt ( u : Float ) : Vector  </span><br><span class="line"><span class="number">11</span>、.computeFrenetFrames ( segments : Integer, <span class="attr">closed</span> : <span class="built_in">Boolean</span> ) : <span class="built_in">Object</span>  </span><br><span class="line">计算弗莱纳标架，实际就是管道每一段的计算的值，每一帧都是有三个参数组成，用于拉伸图形或者管道图形</span><br><span class="line"><span class="string">``</span><span class="string">`  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[computeFrenetFrames示例](http://www.jackpu.com/yi-shi-yong-three-js-zhi-zuo-chong-dong/)  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>js</span><br><span class="line"><span class="number">12</span>、.toJSON () : <span class="built_in">Object</span>  </span><br><span class="line">返回一个曲线 <span class="built_in">JSON</span> 对象  </span><br><span class="line"><span class="number">13</span>、.fromJSON ( json : <span class="built_in">Object</span> ) : Curve  </span><br><span class="line">复制一个json格式的曲线，返回一个曲线</span><br></pre></td></tr></table></figure></p>
+<h1 id="path"><a href="#path" class="headerlink" title="path"></a>path</h1><h2 id="构造器："><a href="#构造器：" class="headerlink" title="构造器："></a>构造器：</h2><blockquote>
+<p>1、Path( points : Array )<br>points是二维点的数组，第一个点作为起点，然后将连续点作为线添加到曲线数组中。如果没有点，画了一个空路径，那么将原点作为currentPoint  </p>
+</blockquote>
+<h2 id="属性-1"><a href="#属性-1" class="headerlink" title="属性"></a>属性</h2><blockquote>
+<p>1、currentPoint<br>当前路径的起点</p>
+</blockquote>
+<h2 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h2> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>、圆  </span><br><span class="line"> .absarc ( x : Float, <span class="attr">y</span> : Float, <span class="attr">radius</span> : Float, <span class="attr">startAngle</span> : Float, <span class="attr">endAngle</span> : Float, <span class="attr">clockwise</span> : Float )  </span><br><span class="line"> x, <span class="attr">y</span>: 圆心位置  </span><br><span class="line"> clockwise ：是否顺时针方向画圆，默认是<span class="literal">false</span>  </span><br><span class="line"></span><br><span class="line"> <span class="number">2</span>、椭圆：  </span><br><span class="line"> .absellipse ( x : Float, <span class="attr">y</span> : Float, <span class="attr">xRadius</span> : Float, <span class="attr">yRadius</span> : Float, <span class="attr">startAngle</span> : Float, <span class="attr">endAngle</span> : Float, <span class="attr">clockwise</span> : Float, <span class="attr">rotation</span> : Float )  </span><br><span class="line"></span><br><span class="line">rotation: 椭圆的旋转角，从x正轴方向逆时针旋转，默认是<span class="number">0</span>。如果现在有一段从x轴方向逆时针画<span class="number">30</span>度的圆弧，rotation设为<span class="number">2</span>/<span class="number">3</span>PI, 则该段弧是从x轴正方形逆时针<span class="number">60</span>度开始，画到逆时针<span class="number">90</span>度结束。  </span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、圆：  </span><br><span class="line">.arc ( x : Float, <span class="attr">y</span> : Float, <span class="attr">radius</span> : Float, <span class="attr">startAngle</span> : Float, <span class="attr">endAngle</span> : Float, <span class="attr">clockwise</span> : Float )</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、椭圆  </span><br><span class="line">.ellipse ( x : Float, <span class="attr">y</span> : Float, <span class="attr">xRadius</span> : Float, <span class="attr">yRadius</span> : Float, <span class="attr">startAngle</span> : Float, <span class="attr">endAngle</span> : Float, <span class="attr">clockwise</span> : Float, <span class="attr">rotation</span> : Float )  </span><br><span class="line"></span><br><span class="line"><span class="number">5</span>、贝塞尔曲线  </span><br><span class="line">.bezierCurveTo ( cp1X : Float, <span class="attr">cp1Y</span> : Float, <span class="attr">cp2X</span> : Float, <span class="attr">cp2Y</span> : Float, <span class="attr">x</span> : Float, <span class="attr">y</span> : Float )  </span><br><span class="line">创建一段从currentPoint(如果没有设置就是原点)开始的贝塞尔曲线，以(cp1X, cp1Y)和(cp2X, cp2Y)作为控制点，(x, y)为终点。  </span><br><span class="line"></span><br><span class="line"><span class="number">6</span>、原点位置  </span><br><span class="line">.moveTo(x, y)  </span><br><span class="line">将原点设置为(x, y)</span><br><span class="line"></span><br><span class="line"><span class="number">7</span>、.lineTo(x, y)  </span><br><span class="line">从原点到(x, y)连一条线。</span><br><span class="line"></span><br><span class="line"><span class="number">8</span>、.setFromPoints ( vector2s : <span class="built_in">Array</span> )</span><br><span class="line">points -- 二维点的数组。</span><br><span class="line">这个方法将二维点的数组以直线连接起来，形成折线。可以用在三维点数组  </span><br><span class="line"><span class="number">9</span>、.splineThru ( points : <span class="built_in">Array</span> )  </span><br><span class="line">这个方法将二维点的数组以曲线连接起来，形成一条平滑曲线。这个方法只能用于二维点数组</span><br><span class="line"><span class="number">10</span>、二次方曲线  </span><br><span class="line">.quadraticCurveTo ( cpX : Float, <span class="attr">cpY</span> : Float, <span class="attr">x</span> : Float, <span class="attr">y</span> : Float )  </span><br><span class="line">以(cpX, cpY)为控制点, 起点为currentPoint, 终点为(x, y)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/three-js/" rel="tag"># three.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/29/React将JS中的标签转化为HTML语言/" rel="next" title="React将JS中的标签转化为HTML语言">
+                <i class="fa fa-chevron-left"></i> React将JS中的标签转化为HTML语言
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/30/three.js之入门学习/" rel="prev" title="three.js之入门学习">
+                three.js之入门学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Qiang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wz71014q" title="GitHub &rarr; https://github.com/wz71014q"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="rss &rarr; /atom.xml"><i class="fa fa-fw fa-globe"></i>rss</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#曲线"><span class="nav-number">1.</span> <span class="nav-text">曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#属性"><span class="nav-number">1.1.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">1.2.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#path"><span class="nav-number">2.</span> <span class="nav-text">path</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造器："><span class="nav-number">2.1.</span> <span class="nav-text">构造器：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性-1"><span class="nav-number">2.2.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法-1"><span class="nav-number">2.3.</span> <span class="nav-text">方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '308e932f93156c7c01df',
+    clientSecret: '6e6359f046270cc0ee7c61fdd2d97ff3aba140a9',
+    repo: 'blogComment',
+    owner: 'wz71014q',
+    admin: ['wz71014q'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: ''
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+  <script src="/live2d-widget/autoload.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

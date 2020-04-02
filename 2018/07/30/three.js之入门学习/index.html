@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-p.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一、官方网站:https://threejs.org二、关于Three.js WebGL是大部分浏览器直接支持的一种3D绘图标准，它可以创建二维图形和应用，还可以充分利用GPU，创建漂亮的、高性能的三维应用。直接使用WebGL非常复杂，Three.js库提供了一套基于WebGL的、非常易用的JavaScrip API，它源自github的一个开源项目，通过这些API可以直接在浏览器中创建三维场景">
+<meta name="keywords" content="JS,three.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="three.js之入门学习">
+<meta property="og:url" content="https://github.com/wz71014q/2018/07/30/three.js之入门学习/index.html">
+<meta property="og:site_name" content="βloS">
+<meta property="og:description" content="一、官方网站:https://threejs.org二、关于Three.js WebGL是大部分浏览器直接支持的一种3D绘图标准，它可以创建二维图形和应用，还可以充分利用GPU，创建漂亮的、高性能的三维应用。直接使用WebGL非常复杂，Three.js库提供了一套基于WebGL的、非常易用的JavaScrip API，它源自github的一个开源项目，通过这些API可以直接在浏览器中创建三维场景">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/three/circle.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/three/airplane.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/three/plan.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/three/stats.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/three/GUI.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/three/circle.gif">
+<meta property="og:updated_time" content="2019-09-26T03:31:07.515Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="three.js之入门学习">
+<meta name="twitter:description" content="一、官方网站:https://threejs.org二、关于Three.js WebGL是大部分浏览器直接支持的一种3D绘图标准，它可以创建二维图形和应用，还可以充分利用GPU，创建漂亮的、高性能的三维应用。直接使用WebGL非常复杂，Three.js库提供了一套基于WebGL的、非常易用的JavaScrip API，它源自github的一个开源项目，通过这些API可以直接在浏览器中创建三维场景">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wz71014q/img/master/three/circle.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://github.com/wz71014q/2018/07/30/three.js之入门学习/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>three.js之入门学习 | βloS</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">βloS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2018/07/30/three.js之入门学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">three.js之入门学习
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-30 20:34:00" itemprop="dateCreated datePublished" datetime="2018-07-30T20:34:00+08:00">2018-07-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-26 11:31:07" itemprop="dateModified" datetime="2019-09-26T11:31:07+08:00">2019-09-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JS/" itemprop="url" rel="index"><span itemprop="name">JS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/three-js/" itemprop="url" rel="index"><span itemprop="name">three.js</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h1 id="一、官方网站-https-threejs-org"><a href="#一、官方网站-https-threejs-org" class="headerlink" title="一、官方网站:https://threejs.org"></a><a href="https://threejs.org" title="https://threejs.org" target="_blank" rel="noopener">一、官方网站:https://threejs.org</a></h1><h1 id="二、关于Three-js"><a href="#二、关于Three-js" class="headerlink" title="二、关于Three.js"></a>二、关于Three.js</h1><blockquote>
+<p>WebGL是大部分浏览器直接支持的一种3D绘图标准，它可以创建二维图形和应用，还可以充分利用GPU，创建漂亮的、高性能的三维应用。直接使用WebGL非常复杂，Three.js库提供了一套基于WebGL的、非常易用的JavaScrip API，它源自github的一个<strong><a href="https://github.com/mrdoob/three.js" title="https://github.com/mrdoob/three.js">开源项目</a></strong>，通过这些API可以直接在浏览器中创建三维场景。本文整理了一些入门资料。</p>
+</blockquote>
+<h1 id="三、开始"><a href="#三、开始" class="headerlink" title="三、开始"></a>三、开始</h1><ul>
+<li>引入<br>可以直接在HTML引入<a href="https://raw.githubusercontent.com/mrdoob/three.js/dev/build/three.js" title="https://raw.githubusercontent.com/mrdoob/three.js/dev/build/three.js" target="_blank" rel="noopener">Three.js</a>：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"three.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>也可以用npm安装：<br><code>npm i three</code><br><code>import * as THREE from &#39;three&#39;</code>  </p>
+<ul>
+<li>使用<br>three渲染一个3D场景需要以下<strong>必要元素</strong>:<br>1.场景(Scene)：是物体、光源等元素的容器，要渲染的东西需要先添加进场景；<br>2.相机（Camera）：控制视角的位置、范围以及视觉焦点的位置,一个3D环境中只能存在一个相机；<br>3.光源（Light）：包括全局光、平行光、点光源；<br>4.物体对象（Mesh）：包括二维物体（点、线、面）、三维物体、粒子等；<br>5.渲染器（Renderer）：指定渲染方式，如webGL\canvas2D\Css2D\Css3D等；<br><strong>非必要元素</strong>：<br>控制器(Control)：相机控件，可通过键盘、鼠标控制相机的移动。<h1 id="四、实例"><a href="#四、实例" class="headerlink" title="四、实例"></a>四、实例</h1></li>
+</ul>
+<a id="more"></a>
+<h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> width = <span class="built_in">window</span>.innerWidth;  </span><br><span class="line"><span class="keyword">const</span> height = <span class="built_in">window</span>.innerHeight;   </span><br><span class="line"><span class="keyword">var</span> renderer;  </span><br><span class="line"><span class="keyword">var</span> camera;  </span><br><span class="line"><span class="keyword">var</span> light;  </span><br><span class="line"><span class="keyword">var</span> scene;   </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initRender</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 初始化渲染器</span></span><br><span class="line">  renderer = <span class="keyword">new</span> THREE.WebGLRenderer(&#123;</span><br><span class="line">    antialias: <span class="literal">true</span><span class="comment">// 抗锯齿</span></span><br><span class="line">  &#125;);</span><br><span class="line">  renderer.setSize(width, height);  <span class="comment">// 设置大小</span></span><br><span class="line">  renderer.setClearColor(<span class="number">0xffffff</span>, <span class="number">1.0</span>);  <span class="comment">// 设置背景色</span></span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(renderer.domElement);  </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initScene</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line"><span class="comment">// 初始化场景</span></span><br><span class="line">  scene = <span class="keyword">new</span> THREE.Scene();  </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initCamera</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">  <span class="comment">// 初始化相机</span></span><br><span class="line">  camera = <span class="keyword">new</span> THREE.PerspectiveCamera(<span class="number">45</span>, width / height, <span class="number">10</span>, <span class="number">10000</span>);  <span class="comment">// 添加透视相机</span></span><br><span class="line">  camera.position.set(<span class="number">500</span>, <span class="number">500</span>, <span class="number">500</span>); <span class="comment">// 设置相机位置  </span></span><br><span class="line">  camera.up.set(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>);  <span class="comment">// 相机以哪个轴为上方</span></span><br><span class="line">  camera.lookAt(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);  <span class="comment">// 相机焦点设置</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initLight</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">  <span class="comment">// 初始化灯光</span></span><br><span class="line">  light = <span class="keyword">new</span> THREE.DirectionalLight(&#123; <span class="attr">color</span>: <span class="number">0xffffff</span> &#125;);  <span class="comment">// 添加平行光</span></span><br><span class="line">  light.position.set(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>); <span class="comment">// 光的方向(x,y,z) </span></span><br><span class="line">  scene.add(light);  </span><br><span class="line">  <span class="keyword">let</span> pointLight = <span class="keyword">new</span> THREE.PointLight(<span class="number">0xffffff</span>);  <span class="comment">// 添加点光源  </span></span><br><span class="line">  pointLight.position.set(<span class="number">100</span>, <span class="number">100</span>, <span class="number">100</span>);  <span class="comment">// 点光源的位置</span></span><br><span class="line">  scene.add(pointLight);  </span><br><span class="line">  <span class="keyword">let</span> pointHelper = <span class="keyword">new</span> THREE.PointLightHelper(pointLight, <span class="number">5</span>, <span class="number">0xff0000</span>);  <span class="comment">// 设置点光源辅助工具,可以看到点光源的位置  </span></span><br><span class="line">  scene.add(pointHelper);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initObject</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">  <span class="comment">// 初始化物体</span></span><br><span class="line">  <span class="keyword">let</span> geometry = <span class="keyword">new</span> THREE.CylinderGeometry(<span class="number">100</span>, <span class="number">100</span>, <span class="number">300</span>, <span class="number">100</span>, <span class="number">100</span>); <span class="comment">// 添加一个圆柱体</span></span><br><span class="line">  <span class="keyword">let</span> material = <span class="keyword">new</span> THREE.MeshLambertMaterial(&#123;</span><br><span class="line">  	color: <span class="number">0xffff00</span></span><br><span class="line">  &#125;); <span class="comment">// 添加材料</span></span><br><span class="line">  <span class="comment">// material.wireframe=true; // 圆柱体是否以网格显示</span></span><br><span class="line">  mesh = <span class="keyword">new</span> THREE.Mesh(geometry, material);</span><br><span class="line">  mesh.position.set(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  scene.add(mesh);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initAxes</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 添加辅助坐标轴</span></span><br><span class="line">  <span class="keyword">let</span> axes = <span class="keyword">new</span> THREE.AxesHelper(<span class="number">1000</span>);<span class="comment">// 蓝色为Z轴，绿色为Y轴，红色为X轴</span></span><br><span class="line">  scene.add(axes);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">threeStart</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">  initRender();  </span><br><span class="line">  initScene();  </span><br><span class="line">  initCamera();  </span><br><span class="line">  initLight();  </span><br><span class="line">  initAxes();  </span><br><span class="line">  initObject();  </span><br><span class="line">  renderer.clear();</span><br><span class="line">  renderer.render(scene, camera);</span><br><span class="line">  &#125;</span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  </span><br><span class="line">  threeStart();  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="https://raw.githubusercontent.com/wz71014q/img/master/three/circle.png" alt></p>
+<h1 id="五、概念"><a href="#五、概念" class="headerlink" title="五、概念"></a>五、概念</h1><h2 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h2><p>three.js中采用的是右手坐标系，坐标轴方向主要是<code>camera.up.set(x, y, z);</code>设置。也就是说在相机眼里（其实就是我们看的角度）哪个轴向上。理解坐标系很重要，详情请看<a href="https://www.cnblogs.com/heyach/p/6902948.html" title="http://www.cnblogs.com/heyach/p/6902948.html" target="_blank" rel="noopener">three右手坐标系讲解</a>。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a><a href="https://threejs.org/docs/index.html#api/scenes/Scene" title="https://threejs.org/docs/index.html#api/scenes/Scene" target="_blank" rel="noopener">场景</a></h2><p>物体、光源、控制器的添加必须使用secen.add(object)添加到场景中才能渲染出来。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scene;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initScene</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  scene=<span class="keyword">new</span> THREE.Scene();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="相机"><a href="#相机" class="headerlink" title="相机"></a><a href="https://threejs.org/docs/index.html#api/cameras/Camera" title="https://threejs.org/docs/index.html#api/cameras/Camera" target="_blank" rel="noopener">相机</a></h2><p><a href="https://threejs.org/docs/index.html#api/cameras/OrthographicCamera" title="https://threejs.org/docs/index.html#api/cameras/OrthographicCamera" target="_blank" rel="noopener">正交投影相机</a>：<br><code>THREE.OrthographicCamera(left, right, top, bottom, near, far) // 大小不因远近而变化</code><br><a href="https://threejs.org/docs/index.html#api/cameras/PerspectiveCamera" title="https://threejs.org/docs/index.html#api/cameras/PerspectiveCamera" target="_blank" rel="noopener">透视投影相机</a>：<br><code>THREE.PerspectiveCamera(fov, aspect, near, far) // 遵循近大远小的空间规则</code></p>
+<p>一般情况下，我们使用的是透视投影相机，其参数为：</p>
+<pre><code>fov：垂直方向夹角(视角)
+aspect：可视区域长宽比 width/height
+near：渲染区域离摄像机最近的距离
+far：渲染区域离摄像机最远的距离，仅在距离摄像机near和far间的区域会被渲染到canvas中
+</code></pre><p>相机的位置设置：<br><code>camera.position.set(x,y,z)或camera.position = new THREE.Vector3(x, y, z);</code><br>控制相机的焦点位置，决定相机的朝向<br><code>camera.lookAt(0, 0, 0);</code><br>添加<a href="https://threejs.org/docs/index.html#api/helpers/CameraHelper" title="https://threejs.org/docs/index.html#api/helpers/CameraHelper" target="_blank" rel="noopener">相机辅助工具</a>来查看相机的位置</p>
+<h2 id="灯光"><a href="#灯光" class="headerlink" title="灯光"></a><a href="https://threejs.org/docs/index.html#api/lights/Light" title="https://threejs.org/docs/index.html#api/lights/Light" target="_blank" rel="noopener">灯光</a></h2><p><a href="https://threejs.org/docs/index.html#api/lights/AmbientLight" title="https://threejs.org/docs/index.html#api/lights/AmbientLight" target="_blank" rel="noopener">全局光</a>：THREE.AmbientLight，影响整个scene的光源，一般是为了弱化阴影或调整整体色调，可设置光照颜色，以颜色的明度确定光源亮度；<br><a href="https://threejs.org/docs/index.html#api/lights/DirectionalLight" title="https://threejs.org/docs/index.html#api/lights/DirectionalLight" target="_blank" rel="noopener">平行光</a>：THREE.DirectionalLight，模拟类似太阳的光源，所有被照射的区域亮度是一致的，可设置光照颜色、光照方向（通过向量确定方向），以颜色的明度确定光源亮度；<br><a href="https://threejs.org/docs/index.html#api/lights/PointLight" title="https://threejs.org/docs/index.html#api/lights/PointLight" target="_blank" rel="noopener">点光源</a>：THREE.PointLight，单点发光，照射所有方向，可设置光照强度，光照半径和光颜色；<br><a href="https://threejs.org/docs/index.html#api/lights/shadows/SpotLightShadow" title="https://threejs.org/docs/index.html#api/lights/shadows/SpotLightShadow" target="_blank" rel="noopener">聚光灯</a>：THREE.SpotLight，这种光源有聚光的效果，类似于台灯，吊灯，手电筒。<br>最简单的用法：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initLight</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">  light = <span class="keyword">new</span> THREE.DirectionalLight(&#123; <span class="attr">color</span>: <span class="number">0xffffff</span> &#125;); <span class="comment">// 创建白色平行光  </span></span><br><span class="line">  light.position.set(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>); <span class="comment">// 平行光只需设置方向向量，其他光源需要设置具体位置</span></span><br><span class="line">  scene.add(light);  </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>光影关系可以显著影响显示效果。参考资料：<a href="https://www.cnblogs.com/amy2011/p/5761174.html" title="https://www.cnblogs.com/amy2011/p/5761174.html" target="_blank" rel="noopener">https://www.cnblogs.com/amy2011/p/5761174.html</a></p>
+<h2 id="3D模型"><a href="#3D模型" class="headerlink" title="3D模型"></a>3D模型</h2><p>我们可以用three自由地创建一些<a href="https://threejs.org/docs/index.html#api/objects/Points" title="https://threejs.org/docs/index.html#api/objects/Points" target="_blank" rel="noopener">点</a>、<a href="https://threejs.org/docs/index.html#api/objects/Line" title="https://threejs.org/docs/index.html#api/objects/Line" target="_blank" rel="noopener">线</a>、<a href="https://threejs.org/docs/index.html#api/math/Plane" title="https://threejs.org/docs/index.html#api/math/Plane" target="_blank" rel="noopener">面</a>和<a href="https://threejs.org/docs/index.html#api/core/Geometry" title="https://threejs.org/docs/index.html#api/core/Geometry" target="_blank" rel="noopener">几何体</a>。或者加载一些已经做好的3D模型，three更新的很快，目前支持大部分格式的3D模型，以后会越来越多。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initObject</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 添加一个圆柱体</span></span><br><span class="line">  <span class="keyword">let</span> geometry = <span class="keyword">new</span> THREE.CylinderGeometry(<span class="number">100</span>, <span class="number">100</span>, <span class="number">300</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">  <span class="keyword">let</span> material = <span class="keyword">new</span> THREE.MeshLambertMaterial(&#123; <span class="attr">color</span>: <span class="number">0xffff00</span> &#125;);</span><br><span class="line">  mesh = <span class="keyword">new</span> THREE.Mesh(geometry, material);</span><br><span class="line">  mesh.position = <span class="keyword">new</span> THREE.Vector3(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  scene.add(mesh);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://threejs.org/docs/index.html#api/geometries/CylinderGeometry" title="https://threejs.org/docs/index.html#api/geometries/CylinderGeometry" target="_blank" rel="noopener">CylinderGeometry</a>是柱体，控制底面边的数量可以得到近似的圆柱体，还可以创建<a href="https://threejs.org/docs/index.html#api/geometries/BoxGeometry" title="https://threejs.org/docs/index.html#api/geometries/BoxGeometry" target="_blank" rel="noopener">正方体</a>、<a href="https://threejs.org/docs/index.html#api/geometries/OctahedronGeometry" title="https://threejs.org/docs/index.html#api/geometries/OctahedronGeometry" target="_blank" rel="noopener">球</a>、<a href="https://threejs.org/docs/index.html#api/geometries/RingGeometry" title="https://threejs.org/docs/index.html#api/geometries/RingGeometry" target="_blank" rel="noopener">环</a>、<a href="https://threejs.org/docs/index.html#api/geometries/TextGeometry" title="https://threejs.org/docs/index.html#api/geometries/TextGeometry" target="_blank" rel="noopener">文字</a>等已经设定好的几何体。如果库里没有需要的，可以自己创建自定义几何体。</p>
+<hr>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initCar</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">  <span class="comment">// 加载一个外部.obj模型</span></span><br><span class="line">  <span class="keyword">let</span> mtlLoader = <span class="keyword">new</span> THREE.MTLLoader();  </span><br><span class="line">  mtlLoader.load(<span class="string">'../../../3Dmodel/Lamborghini/Avent.mtl'</span>, (materials) =&gt; &#123;  </span><br><span class="line">    <span class="comment">// 加载材料</span></span><br><span class="line">       materials.preload();  </span><br><span class="line">       <span class="keyword">let</span> objLoader = <span class="keyword">new</span> THREE.OBJLoader();  </span><br><span class="line">       objLoader.setMaterials(materials);  </span><br><span class="line">       objLoader.load(<span class="string">'../../../3Dmodel/Lamborghini/Avent.obj'</span>, (object) =&gt; &#123;<span class="comment">// 加载模型  </span></span><br><span class="line">           object.scale.set(<span class="number">80</span>, <span class="number">80</span>, <span class="number">80</span>); <span class="comment">// 放大倍数  </span></span><br><span class="line">           scene.add(object);  </span><br><span class="line">         &#125;, (suc) =&gt; &#123; <span class="built_in">console</span>.log(<span class="function">(<span class="params">(suc.loaded <span class="regexp">/ suc.total) * 100) + '% OBJloaded'); &#125;, (err) =&gt; &#123; console.log(err); &#125;  </span></span></span></span><br><span class="line"><span class="function"><span class="params"><span class="regexp">    );  </span></span></span></span><br><span class="line"><span class="function"><span class="params"><span class="regexp">  &#125;, (suc) =&gt; &#123; console.log(((suc.loaded /</span> suc.total</span>) * 100) + '% <span class="params">MTLloaded</span>'); &#125;, (<span class="params">err</span>) =&gt;</span> &#123; <span class="built_in">console</span>.log(err); &#125;);  </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/three/airplane.png" alt><br>three.js加载外部文件需要用<a href="https://github.com/mrdoob/three.js/tree/dev/examples/js/loaders" title="https://github.com/mrdoob/three.js/tree/dev/examples/js/loaders">“loader系列”方法</a>，通过这些方法可以加载.obj、.json、.dae等格式的模型(<a href="https://www.zhihu.com/question/50005990" title="https://www.zhihu.com/question/50005990" target="_blank" rel="noopener">点击查看不同格式的模型之间的差异及优劣</a>）。<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/three/plan.png" alt><br>像这种将一张图片当作一个平面的，要用<a href="https://threejs.org/docs/index.html#api/textures/Texture" title="https://threejs.org/docs/index.html#api/textures/Texture" target="_blank" rel="noopener">Texture</a>加载<a href="https://threejs.org/docs/index.html#api/constants/Materials" title="https://threejs.org/docs/index.html#api/constants/Materials" target="_blank" rel="noopener">材质（纹理）</a>。<a href="https://www.cnblogs.com/amy2011/p/6148736.html" title="https://www.cnblogs.com/amy2011/p/6148736.html" target="_blank" rel="noopener">参考资料</a></p>
+<h1 id="六、简单动画"><a href="#六、简单动画" class="headerlink" title="六、简单动画"></a>六、简单动画</h1><ul>
+<li><p>动画<br>动画有两种方式，一种是让图像动，另一种是让相机动。<br>一个简单的<a href="https://www.cnblogs.com/silent-stranger/p/6027266.html" title="https://www.cnblogs.com/silent-stranger/p/6027266.html" target="_blank" rel="noopener">旋转</a>：  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">animate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     <span class="keyword">var</span> v1 = <span class="keyword">new</span> THREE.Vector3( <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span> );</span><br><span class="line">     meshAll.rotateOnAxis(v1,<span class="number">0.01</span>);</span><br><span class="line">     mesh.rotation.z -= <span class="number">0.01</span>;</span><br><span class="line">     requestAnimationFrame(animate);</span><br><span class="line">     renderer.render(scene,camera);</span><br><span class="line">     stats.update();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>性能检测<br>为了监控帧率，引用<a href="https://github.com/mrdoob/stats.js/" title="https://github.com/mrdoob/stats.js/">Stats</a>插件来监控动画的帧率<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/three/stats.png" alt>  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"Stats.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">……</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initStats</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">  stats = <span class="keyword">new</span> Stats();  </span><br><span class="line">  stats.domElement.style.position = <span class="string">'absolute'</span>;  </span><br><span class="line">  stats.domElement.style.top = <span class="string">'0px'</span>;  </span><br><span class="line">  stats.domElement.style.left = <span class="string">'0px'</span>;  </span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(stats.domElement);  </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="七、交互控制"><a href="#七、交互控制" class="headerlink" title="七、交互控制"></a>七、交互控制</h1><ul>
+<li><a href="https://workshop.chromeexperiments.com/examples/gui/#1--Basic-Usage" title="https://workshop.chromeexperiments.com/examples/gui/#1--Basic-Usage" target="_blank" rel="noopener">dat.gui</a><br><img src="https://raw.githubusercontent.com/wz71014q/img/master/three/GUI.png" alt><br>资料：<a href="https://www.cnblogs.com/xiaoniuzai/p/6685556.html" title="https://www.cnblogs.com/xiaoniuzai/p/6685556.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiaoniuzai/p/6685556.html</a></li>
+<li><a href="https://github.com/mrdoob/three.js/tree/dev/examples/js/controls" title="https://github.com/mrdoob/three.js/tree/dev/examples/js/controls">其它插件</a><br>three自己也提供了很多插件来控制，例如<a href="https://threejs.org/docs/index.html#examples/controls/OrbitControls" title="https://threejs.org/docs/index.html#examples/controls/OrbitControls" target="_blank" rel="noopener">OrbitControls</a>，详情请看官网！<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/three/circle.gif" alt>  <pre><code class="js">    <span class="function"><span class="keyword">function</span> <span class="title">initControl</span>(<span class="params"></span>) </span>{
+      controls = <span class="keyword">new</span> THREE.OrbitControls(camera);
+      <span class="comment">// controls.enabled = false;// boolean,禁用控制器</span>
+      <span class="comment">// controls.enableKeys = false; // boolean,禁用键盘</span>
+      <span class="comment">// controls.autoRotate = true; // boolean,是否自动旋转,所有的旋转都是绕着场景中心旋转，不是原点</span>
+      <span class="comment">// controls.autoRotateSpeed = 2; // Number,自动旋转速度</span>
+      controls.enableDamping = <span class="literal">true</span>; <span class="comment">// boolean, 开启后有缓冲效果，具有物理的阻力感</span>
+      controls.dampingFactor = <span class="number">0.3</span>; <span class="comment">// Float, 阻尼系数(0~1)，数值越低，阻力越小</span>
+      <span class="comment">// controls.enablePan = false; // boolean,禁止平移</span>
+      <span class="comment">// controls..panSpeed = 0.5; // 平移速度</span>
+      <span class="comment">// controls.enableRotate = false; // boolean,禁止旋转</span>
+      <span class="comment">// controls.enableZoom = false; // boolean,禁止远近拉伸</span>
+      <span class="comment">// controls.zoomSpeed = 0.1;// 鼠标滚动一个单位时拉伸幅度</span>
+      <span class="comment">// controls.rotateSpeed = 0.5;// 旋转速度</span>
+      <span class="comment">// controls.keyPanSpeed = 0.5; // Float, 用键盘平移的速度</span>
+      <span class="comment">// controls.keys = {</span>
+      <span class="comment">//   LEFT: 65,</span>
+      <span class="comment">//   RIGHT: 68,</span>
+      <span class="comment">//   UP: 87,</span>
+      <span class="comment">//   BOTTOM: 83</span>
+      <span class="comment">// }; // 键盘编码</span>
+      <span class="comment">// controls.minAzimuthAngle = 0 * Math.PI; // 水平方向最小角度</span>
+      <span class="comment">// controls.maxAzimuthAngle = 0.5 * Math.PI; // 水平方向最大角度，当Z轴向上时，从Z轴正方向往下看，逆时针90度</span>
+      <span class="comment">// controls.minDistance = 500; // 相机离物体最近距离</span>
+      <span class="comment">// controls.maxDistance = 600; // 相机离物体最远距离</span>
+      <span class="comment">// controls.minPolarAngle = 0 * Math.PI;// 上下两极的可视区域最小角度</span>
+      <span class="comment">// controls.maxPolarAngle = 0.5 * Math.PI;// 上下两极的可视区域最大角度，Z轴向上，从屏幕正上方往下90度</span>
+      <span class="comment">// controls.mouseButtons = {</span>
+      <span class="comment">//   ORBIT: THREE.MOUSE.LEFT,</span>
+      <span class="comment">//   ZOOM: THREE.MOUSE.MIDDLE,</span>
+      <span class="comment">//   PAN: THREE.MOUSE.RIGHT</span>
+      <span class="comment">// }; // 鼠标键位设置</span>
+      <span class="comment">// controls.screenSpacePanning = false; // boolean,false时只能在不是向上轴的方向移动。比如相机Z轴向上，那么物体只能在XY平面内移动</span>
+      <span class="comment">// controls.target = new THREE.Vector3(300, 200, 0); // 相机聚焦坐标</span>
+}
+</code></pre>
+<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1>一个练习demo：<a href="https://www.jianshu.com/p/92771817c73f" title="https://www.jianshu.com/p/92771817c73f" target="_blank" rel="noopener">一个采用 Three.js 的 3D 动画场景制作：飞行者</a><br>这些只是入门资料整理，如果想做出官网展示的那些demo，还要自己下功夫钻研！让我们一起快乐地学习吧！</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/three-js/" rel="tag"># three.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/30/three之曲线/" rel="next" title="three.js之曲线">
+                <i class="fa fa-chevron-left"></i> three.js之曲线
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/09/http发展历史/" rel="prev" title="http的发展历史">
+                http的发展历史 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Qiang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wz71014q" title="GitHub &rarr; https://github.com/wz71014q"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="rss &rarr; /atom.xml"><i class="fa fa-fw fa-globe"></i>rss</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、官方网站-https-threejs-org"><span class="nav-number">1.</span> <span class="nav-text">一、官方网站:https://threejs.org</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、关于Three-js"><span class="nav-number">2.</span> <span class="nav-text">二、关于Three.js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、开始"><span class="nav-number">3.</span> <span class="nav-text">三、开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、实例"><span class="nav-number">4.</span> <span class="nav-text">四、实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本结构"><span class="nav-number">4.1.</span> <span class="nav-text">基本结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果"><span class="nav-number">4.2.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、概念"><span class="nav-number">5.</span> <span class="nav-text">五、概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#坐标系"><span class="nav-number">5.1.</span> <span class="nav-text">坐标系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">5.2.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相机"><span class="nav-number">5.3.</span> <span class="nav-text">相机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#灯光"><span class="nav-number">5.4.</span> <span class="nav-text">灯光</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3D模型"><span class="nav-number">5.5.</span> <span class="nav-text">3D模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、简单动画"><span class="nav-number">6.</span> <span class="nav-text">六、简单动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、交互控制"><span class="nav-number">7.</span> <span class="nav-text">七、交互控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束"><span class="nav-number">8.</span> <span class="nav-text">结束</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '308e932f93156c7c01df',
+    clientSecret: '6e6359f046270cc0ee7c61fdd2d97ff3aba140a9',
+    repo: 'blogComment',
+    owner: 'wz71014q',
+    admin: ['wz71014q'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: ''
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+  <script src="/live2d-widget/autoload.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-p.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="&amp;emsp;&amp;emsp;为了提高代码设计水平，测试是必不可少的。jest是facebook出的一个测试框架，里面自带断言库，而且VUE有个Vue Test Utils提供了官方支持，因此这里使用jest构建VUE单元测试部分。开始前建议先浏览一下官方网站，进行初步了解。 起步安装&amp;amp;简易demo新建一个文件夹，然后执行： 12npm initnpm install jest -g 这就安装好">
+<meta name="keywords" content="JS,Vue,jest,单元测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue单元测试踩坑记录">
+<meta property="og:url" content="https://github.com/wz71014q/2019/06/05/Vue单元测试踩坑记录/index.html">
+<meta property="og:site_name" content="βloS">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;为了提高代码设计水平，测试是必不可少的。jest是facebook出的一个测试框架，里面自带断言库，而且VUE有个Vue Test Utils提供了官方支持，因此这里使用jest构建VUE单元测试部分。开始前建议先浏览一下官方网站，进行初步了解。 起步安装&amp;amp;简易demo新建一个文件夹，然后执行： 12npm initnpm install jest -g 这就安装好">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/jest/jestSimpleDemo.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/jest/jestES6Demo.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/jest/jestDemoSuccess.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/jest/helloVueTest.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/jest/coverage.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/jest/router.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/jest/snapshot.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/jest/jestdebug.png">
+<meta property="og:updated_time" content="2020-03-31T02:09:04.124Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue单元测试踩坑记录">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;为了提高代码设计水平，测试是必不可少的。jest是facebook出的一个测试框架，里面自带断言库，而且VUE有个Vue Test Utils提供了官方支持，因此这里使用jest构建VUE单元测试部分。开始前建议先浏览一下官方网站，进行初步了解。 起步安装&amp;amp;简易demo新建一个文件夹，然后执行： 12npm initnpm install jest -g 这就安装好">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wz71014q/img/master/jest/jestSimpleDemo.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://github.com/wz71014q/2019/06/05/Vue单元测试踩坑记录/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Vue单元测试踩坑记录 | βloS</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">βloS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2019/06/05/Vue单元测试踩坑记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vue单元测试踩坑记录
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-05 20:00:00" itemprop="dateCreated datePublished" datetime="2019-06-05T20:00:00+08:00">2019-06-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-03-31 10:09:04" itemprop="dateModified" datetime="2020-03-31T10:09:04+08:00">2020-03-31</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JS/" itemprop="url" rel="index"><span itemprop="name">JS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Vue/" itemprop="url" rel="index"><span itemprop="name">Vue</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/jest/" itemprop="url" rel="index"><span itemprop="name">jest</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/单元测试/" itemprop="url" rel="index"><span itemprop="name">单元测试</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;为了提高代码设计水平，测试是必不可少的。<a href="https://jestjs.io/zh-Hans/" target="_blank" rel="noopener">jest</a>是facebook出的一个测试框架，里面自带断言库，而且VUE有个<a href="https://vue-test-utils.vuejs.org/zh/" target="_blank" rel="noopener">Vue Test Utils</a>提供了官方支持，因此这里使用jest构建VUE单元测试部分。开始前建议先浏览一下官方网站，进行初步了解。</p>
+<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><h3 id="安装-amp-简易demo"><a href="#安装-amp-简易demo" class="headerlink" title="安装&amp;简易demo"></a>安装&amp;简易demo</h3><p>新建一个文件夹，然后执行：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br><span class="line">npm install jest -g</span><br></pre></td></tr></table></figure>
+<p>这就安装好了，接下来写一个简单的函数：</p>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/jest/jestSimpleDemo.png" alt="jestSimpleDemo"></p>
+<p>然后在你的项目文件夹下执行jest, 就会自动搜索所有.test.js和.spec.js文件进行测试。</p>
+<h3 id="增加配置"><a href="#增加配置" class="headerlink" title="增加配置"></a>增加配置</h3><p>接着我们改一下目录，增加一个SRC文件夹，里面放着我们的原文件，然后新建test文件夹，将测试文件全部放进去<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/jest/jestES6Demo.png" alt="jestES6Demo"><br>在demo.test.js中添加代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// demo.test.js</span></span><br><span class="line"><span class="keyword">import</span> checkNumber <span class="keyword">from</span> <span class="string">'../src/demo/demo'</span>;</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'decribe用来生成一个组'</span>, () =&gt; &#123;</span><br><span class="line">  test(<span class="string">'checkNumber'</span>, ()=&gt; &#123;</span><br><span class="line">    expect(checkNumber(<span class="number">2</span>, <span class="number">3</span>)).toBe(<span class="number">5</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>这时直接运行会报错，因为默认不支持ES6的部分语法，所以需要安装babel（<font color="#FF0000">注意babel的版本</font>）进行转译：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @babel/core @babel/preset-env babel-jest -D</span><br></pre></td></tr></table></figure>
+<p>在根目录新增babel.config.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// babel.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  presets: [</span><br><span class="line">    [</span><br><span class="line">      <span class="string">'@babel/preset-env'</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        targets: &#123;</span><br><span class="line">          node: <span class="string">'current'</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>并且在package.json中配置好入口文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"jestdemo"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">""</span>,</span><br><span class="line">  <span class="attr">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"test"</span>: <span class="string">"jest"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"author"</span>: <span class="string">""</span>,</span><br><span class="line">  <span class="attr">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"@babel/core"</span>: <span class="string">"^7.4.5"</span>,</span><br><span class="line">    <span class="attr">"@babel/preset-env"</span>: <span class="string">"^7.4.5"</span>,</span><br><span class="line">    <span class="attr">"babel-jest"</span>: <span class="string">"^24.8.0"</span>,</span><br><span class="line">    <span class="attr">"jest"</span>: <span class="string">"^24.8.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>jest.config.js是jest配置文件，后面一些配置就在这里添加。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// jest.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>jest运行时会自动寻找默认的jest.config.js配置文件。如果要自定义目录，需要在package.json中指定路径： </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">   "test": "jest --config ./test/jest.config.js"</span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
+<p>执行:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run test</span><br></pre></td></tr></table></figure>
+<p>得到以下结果，说明执行成功！<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/jest/jestDemoSuccess.png" alt="jestDemoSuccess"></p>
+<h2 id="测试Vue组件"><a href="#测试Vue组件" class="headerlink" title="测试Vue组件"></a>测试Vue组件</h2><p>&emsp;&emsp;Vue官方给我们提供了<a href="https://vue-test-utils.vuejs.org/zh/" target="_blank" rel="noopener">Vue Test Utils</a>单元测试工具，Vue Test Utils 通过将组件隔离挂载，然后模拟必要的输入 (prop、注入和用户事件) 和对输出 (渲染结果、触发的自定义事件) 的断言来测试 Vue 组件。被挂载的组件会返回到一个包裹器内，而包裹器会暴露很多封装、遍历和查询其内部的 Vue 组件实例的便捷的方法。</p>
+<h3 id="简易Demo"><a href="#简易Demo" class="headerlink" title="简易Demo"></a>简易Demo</h3><p>以一个简单的组件为例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hello.vue</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    hello &#123;&#123; msg &#125;&#125;</span><br><span class="line">    &lt;p <span class="class"><span class="keyword">class</span></span>=<span class="string">"text"</span>&gt;I<span class="string">'m jest demo&lt;/p&gt;</span></span><br><span class="line"><span class="string">    &lt;button class="count" @click="increment"&gt;Increment &#123;&#123; count &#125;&#125;&lt;/button&gt;</span></span><br><span class="line"><span class="string">  &lt;/div&gt;</span></span><br><span class="line"><span class="string">&lt;/template&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;script&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">export default &#123;</span></span><br><span class="line"><span class="string">  name: '</span>Hello<span class="string">',</span></span><br><span class="line"><span class="string">  data() &#123;</span></span><br><span class="line"><span class="string">    return &#123;</span></span><br><span class="line"><span class="string">      msg: '</span>picker<span class="string">',</span></span><br><span class="line"><span class="string">      count: 0</span></span><br><span class="line"><span class="string">    &#125;;</span></span><br><span class="line"><span class="string">  &#125;,</span></span><br><span class="line"><span class="string">  methods: &#123;</span></span><br><span class="line"><span class="string">    increment() &#123;</span></span><br><span class="line"><span class="string">      this.count++;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+<!-- 这种只有组件内部数据交互，没有引用外部图片的资源的文件，只要添加对.vue文件的支持就可以了 -->
+<p>添加依赖</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-jest @vue/test-utils jest-serializer-vue -D</span><br></pre></td></tr></table></figure>
+<p>参考vue-cli2，修改<a href="https://jestjs.io/docs/zh-Hans/configuration" target="_blank" rel="noopener">jest配置</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// jest.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  rootDir: path.resolve(__dirname, <span class="string">'./'</span>),</span><br><span class="line">  moduleFileExtensions: [<span class="string">'js'</span>, <span class="string">'json'</span>, <span class="string">'jsx'</span>, <span class="string">'ts'</span>, <span class="string">'tsx'</span>, <span class="string">'node'</span>, <span class="string">'vue'</span>], <span class="comment">// 处理这些文件</span></span><br><span class="line">  moduleDirectories: [<span class="string">'node_modules'</span>, <span class="string">'assets'</span>], <span class="comment">// 从这些目录去查找资源</span></span><br><span class="line">  moduleNameMapper: &#123; <span class="comment">// 进行转译, identity-obj-proxy用来模拟输入</span></span><br><span class="line">    <span class="string">'^@/(.*)$'</span>: <span class="string">'&lt;rootDir&gt;/assets/'</span>,</span><br><span class="line">    <span class="string">'\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$'</span>: <span class="string">'identity-obj-proxy'</span>,</span><br><span class="line">    <span class="string">'\\.(css|less|scss)$'</span>: <span class="string">'identity-obj-proxy'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  transform: &#123; <span class="comment">// 可以理解成loader</span></span><br><span class="line">    <span class="string">'^.+\\.js$'</span>: <span class="string">'babel-jest'</span>,</span><br><span class="line">    <span class="string">'.*\\.(vue)$'</span>: <span class="string">'vue-jest'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  transformIgnorePatterns: [<span class="string">'&lt;rootDir&gt;/node_modules/'</span>],</span><br><span class="line">  testPathIgnorePatterns: [ <span class="comment">// 忽略测试文件</span></span><br><span class="line">    <span class="string">'&lt;rootDir&gt;/projects/'</span>,</span><br><span class="line">    <span class="string">'&lt;rootDir&gt;/test/sub.test.js'</span></span><br><span class="line">  ],</span><br><span class="line">  testRegex: <span class="string">'hello.test.js'</span>, <span class="comment">// 测试指定格式文件，默认全部.test.js(x)和.spec.js(x)文件</span></span><br><span class="line">  snapshotSerializers: [<span class="string">'&lt;rootDir&gt;/node_modules/jest-serializer-vue'</span>], <span class="comment">// 快照的序列化工具</span></span><br><span class="line">  collectCoverage: <span class="literal">true</span>, <span class="comment">// 测试覆盖率</span></span><br><span class="line">  coverageDirectory: <span class="string">'&lt;rootDir&gt;/test/coverage'</span>,</span><br><span class="line">  collectCoverageFrom: [ <span class="comment">// 测试覆盖率</span></span><br><span class="line">    <span class="string">'&lt;rootDir&gt;/testDemo/**/*.&#123;js,vue&#125;'</span>,</span><br><span class="line">    <span class="string">'!**/node_modules/**'</span></span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>写测试文件:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hello.test.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; mount &#125; <span class="keyword">from</span> <span class="string">'@vue/test-utils'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; renderToString &#125; <span class="keyword">from</span> <span class="string">'@vue/server-test-utils'</span>;</span><br><span class="line"><span class="keyword">import</span> hello <span class="keyword">from</span> <span class="string">'../testDemo/hello.vue'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> wrapper;</span><br><span class="line"><span class="keyword">let</span> vm;</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'vue组件测试'</span>, () =&gt; &#123;</span><br><span class="line">  beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="comment">// 每次测试前确保我们的测试实例都是是干净完整的。返回一个wrapper对象</span></span><br><span class="line">    wrapper = mount(hello);</span><br><span class="line">  &#125;);</span><br><span class="line">  afterEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    vm &amp;&amp; vm.$destroy();</span><br><span class="line">    wrapper &amp;&amp; wrapper.destroy();</span><br><span class="line">  &#125;);</span><br><span class="line">  it(<span class="string">'Dom'</span>, () =&gt; &#123;</span><br><span class="line">    expect(wrapper.contains(<span class="string">'div'</span>)).toBe(<span class="literal">true</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">  it(<span class="string">'Content'</span>, () =&gt; &#123;</span><br><span class="line">    expect(wrapper.find(<span class="string">'.text'</span>).text())</span><br><span class="line">      .toEqual(<span class="string">'I\'m jest demo'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">  it(<span class="string">'Trigger'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> button = wrapper.find(<span class="string">'.count'</span>);</span><br><span class="line">    button.trigger(<span class="string">'click'</span>);</span><br><span class="line">    expect(button.text())</span><br><span class="line">      .toEqual(<span class="string">'Increment 1'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">  it(<span class="string">'renderToString render component as a html'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> str = <span class="keyword">await</span> renderToString(hello);</span><br><span class="line">    expect(str).toContain(<span class="string">'&lt;p class="text"&gt;I\'m jest demo&lt;/p&gt;'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>其中的API根据<a href="https://vue-test-utils.vuejs.org/zh/api/wrapper/#setvalue" target="_blank" rel="noopener">官方文档</a>自行调整，配置完毕后再次运行，出现以下结果即说明测试通过：</p>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/jest/helloVueTest.png" alt="helloVueTest"></p>
+<p>图中的表格就是我们配置的测试覆盖率。其中的几个参数意思是：</p>
+<blockquote>
+<p>%stmts是语句覆盖率（statement coverage）：是否每个语句都执行了<br>%Branch是分支覆盖率（branch coverage）：是否每个if代码块都执行了<br>%Funcs是函数覆盖率（function coverage）：是否每个函数都调用了<br>%Lines行覆盖率（line coverage）：是否每一行都执行了</p>
+</blockquote>
+<p>从图中可以看出hello.vue文件的执行率全部为100%，并且全部通过测试。说明组件逻辑计算没有问题，实际使用怎样不能确定，但是肯定没有人为的失误问题。组件测试不一定非要追求100%，有些组件其实只要测试输入输出可以达到要求即可。</p>
+<p>前面jest.conf.js中设置了覆盖率测试结果的输出路径(coverageDirectory)为test文件夹下的coverage，测试完成后就会自动生成：<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/jest/coverage.png" alt="helloVueTest"></p>
+<h3 id="组件挂载方式"><a href="#组件挂载方式" class="headerlink" title="组件挂载方式"></a>组件挂载方式</h3><p>&emsp;&emsp;我们要测试VUE组件，你得找个地方挂载它，这样才可以调用VUE实例的一些属性与方法。可以使用Vue Test Utils官方API创建一个包裹器wrapper，将组件挂载上去，也可以收到创建VNode，只渲染，不挂载：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Vue Test Utils API</span></span><br><span class="line"><span class="keyword">import</span> &#123; mount &#125; <span class="keyword">from</span> <span class="string">'@vue/test-utils'</span>;</span><br><span class="line"><span class="keyword">import</span> hello <span class="keyword">from</span> <span class="string">'./hello.vue'</span>;</span><br><span class="line"></span><br><span class="line">beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="comment">// 每次测试前确保我们的测试实例都是是干净完整的。返回一个wrapper对象</span></span><br><span class="line">  wrapper = mount(hello);</span><br><span class="line">&#125;);</span><br><span class="line">describe(<span class="string">'hello'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'renders a div'</span>, () =&gt; &#123;</span><br><span class="line">    expect(wrapper.contains(<span class="string">'div'</span>)).toBe(<span class="literal">true</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用 Vue.$mount() 手动挂载</span></span><br><span class="line"><span class="keyword">import</span> hello <span class="keyword">from</span> <span class="string">'./hello.vue'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Constructor = Vue.extend(hello);</span><br><span class="line"><span class="comment">// 渲染但不往Dom挂载，即可调用Vue实例的属性和方法</span></span><br><span class="line"><span class="keyword">const</span> vm = <span class="keyword">new</span> Constructor().$mount();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>简单组件可以用Vue Test Utils的API，挂载时顺便将slot、propsData设置好，检测输出的结果是否符合预期。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> sinon <span class="keyword">from</span> <span class="string">'sinon'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; mount, shallowMount &#125; <span class="keyword">from</span> <span class="string">'@vue/test-utils'</span>;</span><br><span class="line"><span class="keyword">import</span> index <span class="keyword">from</span> <span class="string">'../index.vue'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> wrapper;</span><br><span class="line"><span class="keyword">let</span> vm;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> leftSlot = <span class="string">'&lt;div class="leftSlot"&gt;left icon&lt;/div&gt;'</span>;</span><br><span class="line"><span class="keyword">const</span> left = <span class="string">'&lt;p class="leftText"&gt;left text&lt;/p&gt;'</span></span><br><span class="line"><span class="keyword">const</span> right = <span class="string">'&lt;p class="rightText"&gt;right text&lt;/p&gt;'</span></span><br><span class="line"><span class="keyword">const</span> title = <span class="string">'&lt;p class="title"&gt;header title&lt;/p&gt;'</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">'check index'</span>, () =&gt; &#123;</span><br><span class="line">  beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    wrapper = mount(index, &#123;</span><br><span class="line">      propsData: &#123;</span><br><span class="line">        theme: <span class="string">'transparent'</span>,</span><br><span class="line">        leftOptions: &#123;</span><br><span class="line">          showBack: <span class="literal">true</span>,</span><br><span class="line">          backText: <span class="string">'goBack'</span>,</span><br><span class="line">          preventGoBack: <span class="literal">false</span>,</span><br><span class="line">          showMore: <span class="literal">true</span></span><br><span class="line">        &#125;,</span><br><span class="line">        title: <span class="string">'header组件'</span>,</span><br><span class="line">        transition: <span class="built_in">String</span>,</span><br><span class="line">        rightOptions: &#123;</span><br><span class="line">          showMore: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  afterEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    vm &amp;&amp; vm.$destroy();</span><br><span class="line">    wrapper &amp;&amp; wrapper.destroy();</span><br><span class="line">  &#125;);</span><br><span class="line">  it(<span class="string">'DOM'</span>, () =&gt; &#123;</span><br><span class="line">    expect(wrapper.find(<span class="string">'.title'</span>).text()).toBe(<span class="string">'header组件'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>复杂组件可以创建一个Vue的实例对象，在这个对象里引用你的组件，调用相关的API测试结果。下面这个例子是element-ui组件单元测试创建VUE实例的方法。使用时直接将引入的组件挂在创建的实例上即可。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> createElm = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> elm = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(elm);</span><br><span class="line">  <span class="keyword">return</span> elm;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建一个 Vue 的实例对象</span></span><br><span class="line"><span class="comment"> * @param  &#123;Object|String&#125;  Compo   组件配置，可直接传 template</span></span><br><span class="line"><span class="comment"> * @param  &#123;Boolean=false&#125; mounted 是否添加到 DOM 上</span></span><br><span class="line"><span class="comment"> * @return &#123;Object&#125; vm</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> createVue = <span class="function"><span class="keyword">function</span>(<span class="params">Compo, mounted = false</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.toString.call(Compo) === <span class="string">'[object String]'</span>) &#123;</span><br><span class="line">    Compo = &#123; <span class="attr">template</span>: Compo &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> Vue(Compo).$mount(mounted === <span class="literal">false</span> ? <span class="literal">null</span> : createElm());</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 组件挂载</span></span><br><span class="line"><span class="keyword">import</span> child <span class="keyword">from</span> <span class="string">'../child.vue'</span>;</span><br><span class="line"></span><br><span class="line">it(<span class="string">'create'</span>, done =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> vm = createVue(&#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;button class="btn"&gt;a button&lt;/button&gt;</span></span><br><span class="line"><span class="string">        &lt;child</span></span><br><span class="line"><span class="string">          ref="autocomplete"</span></span><br><span class="line"><span class="string">          v-model="state"</span></span><br><span class="line"><span class="string">          :options="options"</span></span><br><span class="line"><span class="string">          @handle="handle"</span></span><br><span class="line"><span class="string">        &gt;</span></span><br><span class="line"><span class="string">          hello world</span></span><br><span class="line"><span class="string">        &lt;/child&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    data() &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        restaurants: [],</span><br><span class="line">        state: <span class="string">''</span>,</span><br><span class="line">        options: &#123;</span><br><span class="line">          show: <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      handle(res) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'handle'</span> + res);</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> elm = vm.$el;</span><br><span class="line">  <span class="keyword">let</span> btnElm = elm.querySelector(<span class="string">'btn'</span>);</span><br><span class="line">  expect(btnElm.text()).toBe(<span class="string">'a button'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="复杂Vue组件"><a href="#复杂Vue组件" class="headerlink" title="复杂Vue组件"></a>复杂Vue组件</h3><p>&emsp;&emsp;这里的复杂表示组件内包含Vuex、VueRouter等常用配套插件，不包括组件的业务逻辑</p>
+<h4 id="配合-Vue-Router-使用"><a href="#配合-Vue-Router-使用" class="headerlink" title="配合 Vue Router 使用"></a><a href="https://vue-test-utils.vuejs.org/zh/guides/using-with-vue-router.html" target="_blank" rel="noopener">配合 Vue Router 使用</a></h4><p>路由测试有三种方法：</p>
+<ol>
+<li>使用了 router-link 或 router-view 的组件可以使用stub，但是一般项目都是编程式导航，因此使用第2种和第3种方式较好</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; shallowMount &#125; <span class="keyword">from</span> <span class="string">'@vue/test-utils'</span></span><br><span class="line"></span><br><span class="line">shallowMount(Component, &#123;</span><br><span class="line">  stubs: [<span class="string">'router-link'</span>, <span class="string">'router-view'</span>]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>引入要测试路由的组件，并创建一个真正的路由实例</li>
+</ol>
+<p>如图，路由中有两个组件，App.vue是根组件</p>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/jest/router.png" alt="router"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// router.js</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> VueRouter <span class="keyword">from</span> <span class="string">'vue-router'</span>;</span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./Home.vue'</span>;</span><br><span class="line"><span class="keyword">import</span> Menu <span class="keyword">from</span> <span class="string">'./Menu.vue'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'Home'</span>, <span class="attr">path</span>: <span class="string">'/Home'</span>, <span class="attr">component</span>: Home &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'Menu'</span>, <span class="attr">path</span>: <span class="string">'/Menu'</span>, <span class="attr">component</span>: Menu &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">Vue.use(VueRouter);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> VueRouter(&#123; routes &#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// router.test.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; mount, createLocalVue &#125; <span class="keyword">from</span> <span class="string">'@vue/test-utils'</span>;</span><br><span class="line"><span class="keyword">import</span> VueRouter <span class="keyword">from</span> <span class="string">'vue-router'</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>;</span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./Home'</span>;</span><br><span class="line"><span class="keyword">import</span> Menu <span class="keyword">from</span> <span class="string">'./Menu'</span>;</span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> localVue = createLocalVue();</span><br><span class="line">localVue.use(VueRouter);</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'router'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'App router test'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> wrapper = mount(App, &#123; localVue, router &#125;);</span><br><span class="line">    router.push(&#123; <span class="attr">name</span>: <span class="string">'Menu'</span> &#125;);</span><br><span class="line">    expect(wrapper.find(Menu).exists()).toBe(<span class="literal">true</span>);</span><br><span class="line">    router.push(&#123; <span class="attr">name</span>: <span class="string">'Home'</span> &#125;);</span><br><span class="line">    expect(wrapper.find(Home).exists()).toBe(<span class="literal">true</span>);</span><br><span class="line">    expect(wrapper.vm.$route.name).toBe(<span class="string">'Home'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>伪造 $route 和 $router</li>
+</ol>
+<p>如下，mock所需组件，并添加相关参数，检查最终结果是否符合预期</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// router.test.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; shallowMount, mount, createLocalVue &#125; <span class="keyword">from</span> <span class="string">'@vue/test-utils'</span>;</span><br><span class="line"><span class="keyword">import</span> VueRouter <span class="keyword">from</span> <span class="string">'vue-router'</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>;</span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./Home'</span>;</span><br><span class="line"><span class="keyword">import</span> Menu <span class="keyword">from</span> <span class="string">'./Menu'</span>;</span><br><span class="line"></span><br><span class="line">jest.mock(<span class="string">'./Home'</span>, () =&gt; (&#123;</span><br><span class="line">  name: <span class="string">'Home'</span>,</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(</span><br><span class="line">    <span class="string">'div'</span>,</span><br><span class="line">    &#123;</span><br><span class="line">      class: &#123;</span><br><span class="line">        show: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      attrs: &#123;</span><br><span class="line">        id: <span class="string">'txt'</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'i\'m render text'</span></span><br><span class="line">  )</span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'Home'</span>, <span class="attr">path</span>: <span class="string">'/Home'</span>, <span class="attr">component</span>: Home &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'Menu'</span>, <span class="attr">path</span>: <span class="string">'/Menu'</span>, <span class="attr">component</span>: Menu &#125;</span><br><span class="line">];</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123; routes &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> localVue = createLocalVue();</span><br><span class="line">localVue.use(VueRouter);</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'router'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'App router test'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="comment">// 这里需要用mount挂载，所以为了不污染全局的Vue类，使用createLocalVue创建一个新的提供挂载router的类</span></span><br><span class="line">    <span class="keyword">const</span> wrapper = mount(App, &#123; localVue, router &#125;);</span><br><span class="line">    router.push(&#123; <span class="attr">name</span>: <span class="string">'Menu'</span> &#125;);</span><br><span class="line">    expect(wrapper.find(Menu).exists()).toBe(<span class="literal">true</span>);</span><br><span class="line">    router.push(&#123; <span class="attr">name</span>: <span class="string">'Home'</span> &#125;);</span><br><span class="line">    expect(wrapper.find(Home).exists()).toBe(<span class="literal">true</span>);</span><br><span class="line">    expect(wrapper.find(<span class="string">'#txt'</span>).text()).toBe(<span class="string">'i\'m render text'</span>);</span><br><span class="line">    expect(wrapper.vm.$route.name).toBe(<span class="string">'Home'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">describe(<span class="string">'Menu mock router'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'renders a username from query string'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> username = <span class="string">'alice'</span>;</span><br><span class="line">    <span class="comment">// shallowMount渲染的是一个替身组件，&lt;router-link&gt;会被忽略，上面的wrapper.find(Menu)也找不到，因为shallowMount的子组件是stub，不存在的。</span></span><br><span class="line">    <span class="keyword">const</span> wrapper = shallowMount(Menu, &#123;</span><br><span class="line">      mocks: &#123;</span><br><span class="line">        $route: &#123;</span><br><span class="line">          params: &#123; username &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    expect(wrapper.find(<span class="string">'.username'</span>).text()).toBe(username);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="增加快照"><a href="#增加快照" class="headerlink" title="增加快照"></a>增加快照</h3><p>&emsp;&emsp;当你的组件达到理想状态并测试无误后，可以将当前状态保存为一个快照，这样后面再有改动就可以跟这个快照对比，可以大大提高测试的速度。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 为HTML根元素设置快照</span></span><br><span class="line">describe(<span class="string">'vue组件测试'</span>, () =&gt; &#123;</span><br><span class="line">  beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    wrapper = mount(hello);</span><br><span class="line">  &#125;);</span><br><span class="line">  afterEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    vm &amp;&amp; vm.$destroy();</span><br><span class="line">    wrapper &amp;&amp; wrapper.destroy();</span><br><span class="line">  &#125;);</span><br><span class="line">  it(<span class="string">'snaps'</span>, () =&gt; &#123;</span><br><span class="line">    expect(wrapper.element).toMatchSnapshot();</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;设置好快照，下次有更改的东西直接会提示出来：<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/jest/snapshot.png" alt="snapshot"></p>
+<p>更新快照可以用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jset -u</span><br></pre></td></tr></table></figure>
+<h2 id="常用测试项"><a href="#常用测试项" class="headerlink" title="常用测试项"></a>常用测试项</h2><ol>
+<li>检测Dom</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'renders a div'</span>, () =&gt; &#123;</span><br><span class="line">  expect(wrapper.contains(<span class="string">'div'</span>)).toBe(<span class="literal">true</span>);</span><br><span class="line">&#125;);</span><br><span class="line">it(<span class="string">'p标签的内容是I\'m jest demo'</span>, () =&gt; &#123;</span><br><span class="line">  expect(wrapper.find(<span class="string">'.text'</span>).text()).toEqual(<span class="string">'I\'m jest demo'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>检测类名</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'check classes'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> checkButton = wrapper.find(<span class="string">'.check-box'</span>);</span><br><span class="line">  expect(checkButton.classes()).toContain(<span class="string">'is-checked'</span>);</span><br><span class="line">  expect(checkButton.classes().indexOf(<span class="string">'checked'</span>) === <span class="number">-1</span>).toBe(<span class="literal">true</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>检测样式</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'传递的颜色应该是#fff'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> icon = wrapper.find(<span class="string">'.icon'</span>);</span><br><span class="line">  expect(icon.element.style.color).toEqual(<span class="string">'rgb(255, 255, 255)'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>检测方法有没有被调用</li>
+</ol>
+<ul>
+<li>Vue Test Utils</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> checkButton = wrapper.find(<span class="string">'.check-box'</span>);</span><br><span class="line">    checkButton.trigger(<span class="string">'click'</span>);</span><br><span class="line">    expect(wrapper.emitted().input.length).toBe(<span class="number">1</span>);</span><br><span class="line">    expect(wrapper.emitted().input[<span class="number">0</span>]).toBeTruthy();</span><br><span class="line">    expect(wrapper.emitted().input[<span class="number">0</span>]).toEqual([<span class="number">0</span>]);</span><br><span class="line">    expect(checkButton.classes()).toContain(<span class="string">'is-checked'</span>);</span><br><span class="line">    checkButton.trigger(<span class="string">'click'</span>);</span><br><span class="line">    expect(wrapper.emitted().input.length).toBe(<span class="number">2</span>);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>sinon</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> it(<span class="string">'triggle'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> shallowWrapper = wrapper(Header);</span><br><span class="line">    <span class="keyword">const</span> eventSpy = sinon.spy(wrapper.vm, <span class="string">'$emit'</span>);</span><br><span class="line">    wrapper.find(<span class="string">'.gree-header-title'</span>).trigger(<span class="string">'click'</span>);</span><br><span class="line">    expect(eventSpy.withArgs(<span class="string">'on-click-title'</span>).calledOnce).toBeTruthy();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>检测传入的数据有没有正常接收<br>挂载组件时传入一组虚拟数据，根据传入的内容和得到的结果验证逻辑处理是否正确：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'The text of check-box should be something, () =&gt; &#123;</span></span><br><span class="line"><span class="string">    const shallowWrapper = shallowMount(box, &#123;</span></span><br><span class="line"><span class="string">      slots: &#123;</span></span><br><span class="line"><span class="string">        default: '</span>something<span class="string">'</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    &#125;)</span></span><br><span class="line"><span class="string">    expect(shallowWrapper.find('</span>.check-box<span class="string">').text()).toBe('</span>something<span class="string">');</span></span><br><span class="line"><span class="string">    shallowWrapper.destroy();</span></span><br><span class="line"><span class="string">  &#125;);</span></span><br></pre></td></tr></table></figure>
+<h2 id="常用API"><a href="#常用API" class="headerlink" title="常用API"></a>常用API</h2><h3 id="jest"><a href="#jest" class="headerlink" title="jest"></a>jest</h3><ul>
+<li>全局API</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分组</span></span><br><span class="line">descrip(<span class="string">'title'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'test1'</span>, ()=&gt;&#123;</span><br><span class="line">    <span class="comment">// do somthing</span></span><br><span class="line">  &#125;)</span><br><span class="line">  it(<span class="string">'test2'</span>, ()=&gt;&#123;</span><br><span class="line">    <span class="comment">// do somthing</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">beforeEach(fn, timeout) <span class="comment">// 在当前作用域下每次执行前运行</span></span><br><span class="line">afterEach(fn, timeout) <span class="comment">// 在当前作用域下每次执行后运行</span></span><br><span class="line">beforeAll(fn, timeout) <span class="comment">// 全部代码执行前运行</span></span><br><span class="line"><span class="comment">// timeout: ms 终止前等待的时间，默认是5000, 5s到了后即使没有执行完测试用例也会终止</span></span><br><span class="line"><span class="comment">// 使用举例</span></span><br><span class="line">beforeAll(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'global - beforeAll'</span>));</span><br><span class="line">afterAll(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'global - afterAll'</span>));</span><br><span class="line">beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'global - beforeEach'</span>));</span><br><span class="line">afterEach(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'global - afterEach'</span>));</span><br><span class="line">test(<span class="string">''</span>, () =&gt; <span class="built_in">console</span>.log(<span class="string">'global - test'</span>));</span><br><span class="line">describe(<span class="string">'Scoped / Nested block'</span>, () =&gt; &#123;</span><br><span class="line">  beforeAll(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Scoped - beforeAll'</span>));</span><br><span class="line">  afterAll(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Scoped - afterAll'</span>));</span><br><span class="line">  beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Scoped - beforeEach'</span>));</span><br><span class="line">  afterEach(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Scoped - afterEach'</span>));</span><br><span class="line">  test(<span class="string">''</span>, () =&gt; <span class="built_in">console</span>.log(<span class="string">'Scoped - test'</span>));</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 执行顺序</span></span><br><span class="line"><span class="comment">// global - beforeAll</span></span><br><span class="line"><span class="comment">// global - beforeEach</span></span><br><span class="line"><span class="comment">// global - test</span></span><br><span class="line"><span class="comment">// global - afterEach</span></span><br><span class="line"><span class="comment">// Scoped - beforeAll</span></span><br><span class="line"><span class="comment">// global - beforeEach</span></span><br><span class="line"><span class="comment">// Scoped - beforeEach</span></span><br><span class="line"><span class="comment">// Scoped - test</span></span><br><span class="line"><span class="comment">// Scoped - afterEach</span></span><br><span class="line"><span class="comment">// global - afterEach</span></span><br><span class="line"><span class="comment">// Scoped - afterAll</span></span><br><span class="line"><span class="comment">// global - afterAll</span></span><br><span class="line"></span><br><span class="line">describe(name, fn) <span class="comment">// 创建一个测试用例的分组</span></span><br><span class="line">test(name, fn, timeout) <span class="comment">// 测试用例</span></span><br><span class="line">it(name, fn, timeout) <span class="comment">// 测试用例</span></span><br><span class="line">test.each(table)(name, fn, timeout) <span class="comment">// 当一个测试用例需要执行多次，但是每次仅仅是参数不同时用这个</span></span><br><span class="line"><span class="comment">// e.g.</span></span><br><span class="line">test.each([[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>]])(</span><br><span class="line">  <span class="string">'.add(%i, %i)'</span>,</span><br><span class="line">  (a, b, expected) =&gt; &#123;</span><br><span class="line">    expect(a + b).toBe(expected);</span><br><span class="line">  &#125;,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>断言</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">expect(fn()).toBe(value) <span class="comment">// 断言fn的执行结果是value</span></span><br><span class="line">expect.extend(matchers) <span class="comment">// 自定义断言</span></span><br><span class="line"><span class="comment">// e.g.</span></span><br><span class="line">expect.extend(&#123;</span><br><span class="line">  matchers() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line">it(<span class="string">'numeric ranges'</span>, () =&gt; &#123;</span><br><span class="line">  expect(<span class="number">100</span>).matchers().toBe(<span class="literal">true</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">expect().toBeTruthy() <span class="comment">// 结果为真</span></span><br><span class="line">expect().toEqual() <span class="comment">// 递归比较对象实例的所有属性（也称为“深度”相等）。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>mock</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jest.fn() <span class="comment">// 提供一个虚拟方法</span></span><br><span class="line"><span class="comment">// e.g.</span></span><br><span class="line"><span class="keyword">const</span> returnsTrue = jest.fn(<span class="function"><span class="params">()</span> =&gt;</span> <span class="literal">true</span>);</span><br><span class="line">returnsTrue();</span><br><span class="line"><span class="built_in">console</span>.log(returnsTrue()); <span class="comment">// true;</span></span><br><span class="line">expect(returnsTrue).toHaveBeenCalled();</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">jest.mock(moduleName, factory, options) <span class="comment">// 在需要时模拟一个模块。factory和options是可选的。比如测试路由时可以mock所需的路由模块</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 举例：</span></span><br><span class="line"><span class="comment">// sum.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">88</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = sum;</span><br><span class="line"></span><br><span class="line"><span class="comment">// sum.test.js</span></span><br><span class="line"><span class="keyword">const</span> sum = <span class="built_in">require</span>(<span class="string">'./sum.js'</span>);</span><br><span class="line">jest.mock(<span class="string">'./sum.js'</span>, () =&gt; jest.fn(<span class="function"><span class="params">()</span> =&gt;</span> <span class="number">66</span>));</span><br><span class="line">describe(<span class="string">'sum'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'sum should return 66'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(sum()); <span class="comment">// 66，这里的sum()是mock的假方法</span></span><br><span class="line">    expect(sum()).toBe(<span class="number">66</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><p>&emsp;&emsp;vscode有jest插件，安装后可以快速开启debug。debug环境是在node下的，也可以自己配置：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"0.2.0"</span>,</span><br><span class="line">  <span class="attr">"configurations"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"vscode-jest-tests"</span>,</span><br><span class="line">      <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">      <span class="attr">"args"</span>: [</span><br><span class="line">        <span class="string">"--runInBand"</span></span><br><span class="line">      ],</span><br><span class="line">      <span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">      <span class="attr">"console"</span>: <span class="string">"integratedTerminal"</span>,</span><br><span class="line">      <span class="attr">"internalConsoleOptions"</span>: <span class="string">"neverOpen"</span>,</span><br><span class="line">      <span class="attr">"program"</span>: <span class="string">"$&#123;workspaceFolder&#125;/node_modules/jest/bin/jest"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置好后设置断点，按F5即可。</p>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/jest/jestdebug.png" alt="snapshot"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+            <a href="/tags/jest/" rel="tag"># jest</a>
+          
+            <a href="/tags/单元测试/" rel="tag"># 单元测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/04/CSS-设备像素与逻辑像素/" rel="next" title="CSS-设备像素与逻辑像素">
+                <i class="fa fa-chevron-left"></i> CSS-设备像素与逻辑像素
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/21/疑难杂症记录/" rel="prev" title="疑难杂症记录">
+                疑难杂症记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Qiang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wz71014q" title="GitHub &rarr; https://github.com/wz71014q"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="rss &rarr; /atom.xml"><i class="fa fa-fw fa-globe"></i>rss</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#起步"><span class="nav-number">1.</span> <span class="nav-text">起步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-amp-简易demo"><span class="nav-number">1.1.</span> <span class="nav-text">安装&amp;简易demo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加配置"><span class="nav-number">1.2.</span> <span class="nav-text">增加配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试Vue组件"><span class="nav-number">2.</span> <span class="nav-text">测试Vue组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简易Demo"><span class="nav-number">2.1.</span> <span class="nav-text">简易Demo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件挂载方式"><span class="nav-number">2.2.</span> <span class="nav-text">组件挂载方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂Vue组件"><span class="nav-number">2.3.</span> <span class="nav-text">复杂Vue组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配合-Vue-Router-使用"><span class="nav-number">2.3.1.</span> <span class="nav-text">配合 Vue Router 使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加快照"><span class="nav-number">2.4.</span> <span class="nav-text">增加快照</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用测试项"><span class="nav-number">3.</span> <span class="nav-text">常用测试项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用API"><span class="nav-number">4.</span> <span class="nav-text">常用API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jest"><span class="nav-number">4.1.</span> <span class="nav-text">jest</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug"><span class="nav-number">5.</span> <span class="nav-text">Debug</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '308e932f93156c7c01df',
+    clientSecret: '6e6359f046270cc0ee7c61fdd2d97ff3aba140a9',
+    repo: 'blogComment',
+    owner: 'wz71014q',
+    admin: ['wz71014q'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: ''
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+  <script src="/live2d-widget/autoload.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

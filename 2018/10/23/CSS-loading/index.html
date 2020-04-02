@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-p.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="&amp;emsp;&amp;emsp;曾经以为，loading的制作需要一些比较高深的动画技术，后来发现大多数loading都可以用“障眼法”做出来。比如一个旋转的圆圈，并不都是将gif图放进去，有些就是画个静止图像，然后让它旋转就完了。gif图也可以，但是加载时间比较长。&amp;emsp;&amp;emsp;CSS就可以做出大多数的loading，比如：如何制作？">
+<meta name="keywords" content="CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS-loading">
+<meta property="og:url" content="https://github.com/wz71014q/2018/10/23/CSS-loading/index.html">
+<meta property="og:site_name" content="βloS">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;曾经以为，loading的制作需要一些比较高深的动画技术，后来发现大多数loading都可以用“障眼法”做出来。比如一个旋转的圆圈，并不都是将gif图放进去，有些就是画个静止图像，然后让它旋转就完了。gif图也可以，但是加载时间比较长。&amp;emsp;&amp;emsp;CSS就可以做出大多数的loading，比如：如何制作？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-1.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-4.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-2.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-5.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-8-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-8-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-13.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-14.png">
+<meta property="og:updated_time" content="2019-09-26T03:31:07.506Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS-loading">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;曾经以为，loading的制作需要一些比较高深的动画技术，后来发现大多数loading都可以用“障眼法”做出来。比如一个旋转的圆圈，并不都是将gif图放进去，有些就是画个静止图像，然后让它旋转就完了。gif图也可以，但是加载时间比较长。&amp;emsp;&amp;emsp;CSS就可以做出大多数的loading，比如：如何制作？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wz71014q/img/master/loading-1.gif">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://github.com/wz71014q/2018/10/23/CSS-loading/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>CSS-loading | βloS</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">βloS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2018/10/23/CSS-loading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS-loading
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-23 20:00:00" itemprop="dateCreated datePublished" datetime="2018-10-23T20:00:00+08:00">2018-10-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-26 11:31:07" itemprop="dateModified" datetime="2019-09-26T11:31:07+08:00">2019-09-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;曾经以为，loading的制作需要一些比较高深的动画技术，后来发现大多数loading都可以用“障眼法”做出来。比如一个旋转的圆圈，并不都是将gif图放进去，有些就是画个静止图像，然后让它旋转就完了。gif图也可以，但是加载时间比较长。<br>&emsp;&emsp;CSS就可以做出大多数的loading，比如：<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-1.gif" alt="piano"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-4.gif" alt="heart"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-2.gif" alt="circle"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-5.gif" alt="cicrleProgress"><br>如何制作？<br><a id="more"></a></p>
+<h1 id="loading1"><a href="#loading1" class="headerlink" title="loading1"></a>loading1</h1><p>1、HTML:  </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"ddr"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ddr ddr1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ddr ddr2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ddr ddr3"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ddr ddr4"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ddr ddr5"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、CSS：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="selector-id">#ddr</span>&#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">70px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">120px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.ddr</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">120px</span>;</span><br><span class="line">    <span class="attribute">float</span>: left;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">2px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#00ff00</span>;</span><br><span class="line">    <span class="attribute">animation</span>: loading <span class="number">1s</span> infinite ease-in-out;<span class="comment">/*animation：动画名称 持续时间 动画速度曲线 延迟 执行多少次 是否正反方向轮流播放*/</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.ddr2</span>&#123;</span><br><span class="line">    <span class="attribute">animation-delay</span>: -<span class="number">0.9s</span>;<span class="comment">/*定义开始执行的地方，负号表示直接从第900ms开始执行*/</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.ddr3</span>&#123;</span><br><span class="line">    <span class="attribute">animation-delay</span>: -<span class="number">0.8s</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.ddr4</span>&#123;</span><br><span class="line">    <span class="attribute">animation-delay</span>: -<span class="number">0.7s</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.ddr5</span>&#123;</span><br><span class="line">    <span class="attribute">animation-delay</span>: -<span class="number">0.6s</span>;</span><br><span class="line">&#125;</span><br><span class="line">@<span class="keyword">keyframes</span> loading &#123;</span><br><span class="line">    0%,40%,100%&#123; <span class="comment">/*定义每帧的动作*/</span></span><br><span class="line">        <span class="attribute">-webkit-transform</span>: <span class="built_in">scaleY</span>(0.5);</span><br><span class="line">    &#125;</span><br><span class="line">    20%&#123;</span><br><span class="line">        <span class="attribute">-webkit-transform</span>: <span class="built_in">scaleY</span>(1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="loading2"><a href="#loading2" class="headerlink" title="loading2"></a>loading2</h1><p>1、HTML</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"loading4"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"loader4"</span> <span class="attr">class</span>=<span class="string">"heart"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、CSS</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#loading4</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#loader4</span>&#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="built_in">calc</span>(50% - 25px);</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">animation</span>: loader-<span class="number">4</span> <span class="number">1s</span> ease-in-out alternate infinite;</span><br><span class="line">&#125;</span><br><span class="line">.heart:before&#123; // 让两个一端为圆角的长方形叠加形成心型，然后按规律缩放</span><br><span class="line">    <span class="selector-tag">position</span>: <span class="selector-tag">absolute</span>;</span><br><span class="line">    <span class="selector-tag">left</span>: 11<span class="selector-tag">px</span>;</span><br><span class="line">    <span class="selector-tag">content</span>: "";</span><br><span class="line">    <span class="selector-tag">width</span>: 50<span class="selector-tag">px</span>;</span><br><span class="line">    <span class="selector-tag">height</span>: 80<span class="selector-tag">px</span>;</span><br><span class="line">    <span class="selector-tag">transform</span>: <span class="selector-tag">rotate</span>(45<span class="selector-tag">deg</span>);</span><br><span class="line">    <span class="selector-tag">background-color</span>: <span class="selector-tag">rgb</span>(230, 6, 6);</span><br><span class="line">    <span class="selector-tag">border-radius</span>: 50<span class="selector-tag">px</span> 50<span class="selector-tag">px</span> 0 0;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.heart</span><span class="selector-pseudo">:after</span>&#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">11px</span>;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">80px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(230, 6, 6);</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">rotate</span>(-45deg);</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">@<span class="keyword">keyframes</span> loader-<span class="number">4</span> &#123;</span><br><span class="line">    0%&#123;</span><br><span class="line">        <span class="attribute">transform</span>: <span class="built_in">scale</span>(0.2);</span><br><span class="line">        <span class="attribute">opacity</span>: <span class="number">0.5</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    100%&#123;</span><br><span class="line">        <span class="attribute">transform</span>: <span class="built_in">scale</span>(1);</span><br><span class="line">        <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="loading3"><a href="#loading3" class="headerlink" title="loading3"></a>loading3</h1><p>1、HTML：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"circle"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、CSS</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="selector-id">#circle</span>&#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">20px</span> auto;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">5px</span> white solid;</span><br><span class="line">  <span class="attribute">border-left-color</span>: <span class="number">#ff5500</span>;</span><br><span class="line">  <span class="attribute">border-right-color</span>:<span class="number">#0c80fe</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">animation</span>: loading1 <span class="number">1s</span> infinite linear;</span><br><span class="line">&#125;</span><br><span class="line">@<span class="keyword">keyframes</span> loading1&#123;</span><br><span class="line">  <span class="selector-tag">from</span>&#123;<span class="attribute">transform</span>: <span class="built_in">rotate</span>(0deg)&#125;<span class="selector-tag">to</span>&#123;<span class="attribute">transform</span>: <span class="built_in">rotate</span>(360deg)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="loading4"><a href="#loading4" class="headerlink" title="loading4"></a>loading4</h1><p>0、原理  </p>
+<p><div align="center"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-6.png" alt><br>如图，先画一个正方形，这个正方形就是环形loading的轨道（现在还不是），再将一个圆放在上面，充当遮蔽物。  </div></p>
+<p><div align="center"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-7.png" alt><br>运用clip-path(原先是clip，但是这个属性即将被删除。另外clip-path属性兼容性很差)属性可以裁剪图像，将上面的圆裁为一半，假如这个圆的右半部分一直看不见，旋转左边这个半圆，会出现怎样的效果呢？  </div></p>
+<p><div align="center"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-8-1.png" alt>  </div></p>
+<p><div align="center"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-8-2.png" alt><br>如图，就是这种效果，这时候再加一个遮罩，就形成了下面这种效果：  </div></p>
+<p><div align="center"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-9.png" alt><br>再将最下面的正方形变成圆形（变成真正的轨道），旋转橙色部分的圆环，底部青色的就会露出来，就形成了进度条的效果  </div></p>
+<p><div align="center"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-10.png" alt><br>这是左边的一半，将右边的一半补齐：  </div></p>
+<p><div align="center"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-11.png" alt><br>中间白色部分是mask遮罩，加上相应的文字，调整颜色就ok啦！  </div></p>
+<p><div align="center"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-12.png" alt><br>这里的渐变效果并不是径向渐变，如果用径向渐变制作，效果会更好。  </div></p>
+<p><div align="left">1、HTML</div></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"progress.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"circle"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"preLeft"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"preRight"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"mask"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"progress"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">span</span>&gt;</span>%</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"progress.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、CSS  </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">*&#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.circle</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">7px</span> <span class="number">0px</span> inset;</span><br><span class="line">  <span class="attribute">background</span>:<span class="built_in">linear-gradient</span>(#9ED110, #50B517, #179067, #476EAF, #9f49ac, #CC42A2, #FF3BA7, #FF5800, #FF8100, #FEAC00, #FFCC00, #EDE604);</span><br><span class="line">  <span class="attribute">filter</span>: <span class="built_in">blur</span>(8px);</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">scale</span>(1.1);</span><br><span class="line">  <span class="attribute">-webkit-mask</span>: <span class="built_in">radial-gradient</span>(black 30px, #0000 90px);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.preLeft</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">clip-path</span>: <span class="built_in">polygon</span>(0 0, 50% 0, 50% 100%, 0 100%);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">3px</span> <span class="number">0px</span> inset;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">rotate</span>(0deg);</span><br><span class="line">  <span class="attribute">clip-path</span>: <span class="built_in">polygon</span>(0 0, 50% 0, 50% 100%, 0 100%);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.preRight</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">clip-path</span>: <span class="built_in">polygon</span>(50% 0, 100% 0, 100% 100%, 50% 100%);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">3px</span> <span class="number">0px</span> inset;</span><br><span class="line">  <span class="attribute">background</span>:<span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">rotate</span>(0deg);</span><br><span class="line">  <span class="attribute">clip-path</span>: <span class="built_in">polygon</span>(50% 0, 100% 0, 100% 100%, 50% 100%);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mask</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="comment">/* box-shadow: 0 0 5px 0px; */</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#FFF</span>; </span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">150px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、JS更新内部进度  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> left = <span class="built_in">document</span>.getElementsByClassName(<span class="string">'left'</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">let</span> right = <span class="built_in">document</span>.getElementsByClassName(<span class="string">'right'</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">let</span> progress = <span class="built_in">document</span>.getElementsByClassName(<span class="string">'progress'</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">let</span> value = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> timer = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (progress.innerHTML &lt; <span class="number">100</span>) &#123;</span><br><span class="line">      progress.innerHTML = value++;</span><br><span class="line">      <span class="keyword">if</span> (value &lt;= <span class="number">50</span>) &#123;</span><br><span class="line">        right.style.transform = <span class="string">'rotate('</span> + (value * <span class="number">3.6</span>) + <span class="string">'deg)'</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= <span class="number">100</span>) &#123;</span><br><span class="line">        left.style.transform = <span class="string">'rotate('</span> + ((value - <span class="number">50</span>) * <span class="number">3.6</span>) + <span class="string">'deg)'</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      clearInterval(timer);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, <span class="number">100</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  init();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>逢年过节，百度或者谷歌都会在首页播放一段动画，比如元宵节：  </p>
+<p><div align="center"><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-13.gif" alt>  </div></p>
+<p><div align="left">这个动画不仅仅是gif图，有时候是一张长长的包含所有帧的图片：<br><img src="https://raw.githubusercontent.com/wz71014q/img/master/loading-14.png" alt><br>仿照animation一帧一桢的思路，可以将这张图片做成动画：  </div></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#picHolder</span>&#123;</span><br><span class="line"><span class="comment">/* 图片样式 */</span></span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">17%</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">270px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">129px</span>;</span><br><span class="line">    <span class="attribute">margin-left</span>:-<span class="number">135px</span>;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">"../../../Library_image/tangyuan.png"</span>);</span><br><span class="line">    <span class="attribute">background-repeat</span>: no-repeat;</span><br><span class="line">    <span class="attribute">background-position-x</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">animation</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">/* 定时移动图片，使观众看到不同的帧 */</span></span><br><span class="line">  <span class="keyword">var</span> po = <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> holder = <span class="built_in">document</span>.getElementById(<span class="string">'picHolder'</span>)</span><br><span class="line">  setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    po += <span class="number">-270</span></span><br><span class="line">    i++</span><br><span class="line">    holder.style.backgroundPositionX = po + <span class="string">'px'</span></span><br><span class="line">    <span class="keyword">if</span> (i &gt;= <span class="number">31</span>) &#123;</span><br><span class="line">      i = <span class="number">0</span></span><br><span class="line">      po = <span class="number">270</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  animation()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/23/CSS-选择器/" rel="next" title="CSS-选择器">
+                <i class="fa fa-chevron-left"></i> CSS-选择器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/23/CSS-可视化格式模型/" rel="prev" title="CSS-可视化格式模型">
+                CSS-可视化格式模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Qiang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wz71014q" title="GitHub &rarr; https://github.com/wz71014q"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="rss &rarr; /atom.xml"><i class="fa fa-fw fa-globe"></i>rss</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#loading1"><span class="nav-number">1.</span> <span class="nav-text">loading1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#loading2"><span class="nav-number">2.</span> <span class="nav-text">loading2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#loading3"><span class="nav-number">3.</span> <span class="nav-text">loading3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#loading4"><span class="nav-number">4.</span> <span class="nav-text">loading4</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '308e932f93156c7c01df',
+    clientSecret: '6e6359f046270cc0ee7c61fdd2d97ff3aba140a9',
+    repo: 'blogComment',
+    owner: 'wz71014q',
+    admin: ['wz71014q'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: ''
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+  <script src="/live2d-widget/autoload.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>
