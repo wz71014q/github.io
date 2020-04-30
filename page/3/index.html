@@ -305,6 +305,203 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2018/07/30/three.js之入门学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/30/three.js之入门学习/" class="post-title-link" itemprop="url">three.js之入门学习</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-30 20:34:00" itemprop="dateCreated datePublished" datetime="2018-07-30T20:34:00+08:00">2018-07-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-26 11:31:07" itemprop="dateModified" datetime="2019-09-26T11:31:07+08:00">2019-09-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JS/" itemprop="url" rel="index"><span itemprop="name">JS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/three-js/" itemprop="url" rel="index"><span itemprop="name">three.js</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <hr>
+<h1 id="一、官方网站-https-threejs-org"><a href="#一、官方网站-https-threejs-org" class="headerlink" title="一、官方网站:https://threejs.org"></a><a href="https://threejs.org" title="https://threejs.org" target="_blank" rel="noopener">一、官方网站:https://threejs.org</a></h1><h1 id="二、关于Three-js"><a href="#二、关于Three-js" class="headerlink" title="二、关于Three.js"></a>二、关于Three.js</h1><blockquote>
+<p>WebGL是大部分浏览器直接支持的一种3D绘图标准，它可以创建二维图形和应用，还可以充分利用GPU，创建漂亮的、高性能的三维应用。直接使用WebGL非常复杂，Three.js库提供了一套基于WebGL的、非常易用的JavaScrip API，它源自github的一个<strong><a href="https://github.com/mrdoob/three.js" title="https://github.com/mrdoob/three.js">开源项目</a></strong>，通过这些API可以直接在浏览器中创建三维场景。本文整理了一些入门资料。</p>
+</blockquote>
+<h1 id="三、开始"><a href="#三、开始" class="headerlink" title="三、开始"></a>三、开始</h1><ul>
+<li>引入<br>可以直接在HTML引入<a href="https://raw.githubusercontent.com/mrdoob/three.js/dev/build/three.js" title="https://raw.githubusercontent.com/mrdoob/three.js/dev/build/three.js" target="_blank" rel="noopener">Three.js</a>：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"three.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>也可以用npm安装：<br><code>npm i three</code><br><code>import * as THREE from &#39;three&#39;</code>  </p>
+<ul>
+<li>使用<br>three渲染一个3D场景需要以下<strong>必要元素</strong>:<br>1.场景(Scene)：是物体、光源等元素的容器，要渲染的东西需要先添加进场景；<br>2.相机（Camera）：控制视角的位置、范围以及视觉焦点的位置,一个3D环境中只能存在一个相机；<br>3.光源（Light）：包括全局光、平行光、点光源；<br>4.物体对象（Mesh）：包括二维物体（点、线、面）、三维物体、粒子等；<br>5.渲染器（Renderer）：指定渲染方式，如webGL\canvas2D\Css2D\Css3D等；<br><strong>非必要元素</strong>：<br>控制器(Control)：相机控件，可通过键盘、鼠标控制相机的移动。<h1 id="四、实例"><a href="#四、实例" class="headerlink" title="四、实例"></a>四、实例</h1></li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/30/three.js之入门学习/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2018/05/29/React将JS中的标签转化为HTML语言/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -431,7 +628,7 @@
             <ol>
 <li>在JS中混杂字符和HTML标签，识别方法</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> menuList = [<span class="string">'门店'</span>, <span class="string">'星享俱乐部'</span>, <span class="string">'菜单'</span>, <span class="string">'&lt;hr&gt;&lt;/hr&gt;'</span>, <span class="string">'星巴克移动应用'</span>, <span class="string">'星礼卡'</span>, <span class="string">'星巴克臻选&lt;sup&gt;TM&lt;/sup&gt;'</span>, <span class="string">'咖啡星讲堂'</span>, <span class="string">'上海烘培工坊'</span>, <span class="string">'关于星巴克'</span>, <span class="string">'帮助中心'</span>, <span class="string">'&lt;hr&gt;&lt;/hr&gt;'</span>];</span><br><span class="line"><span class="keyword">const</span> listItems = menuList.map(<span class="function">(<span class="params">item,index</span>) =&gt;</span><span class="xml"><span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&#123;index&#125;</span> <span class="attr">dangerouslySetInnerHTML</span>=<span class="string">&#123;&#123;</span> <span class="attr">__html:</span> <span class="attr">item</span> &#125;&#125;&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span>);<span class="comment">// dangerouslySetInnerHTML：将JS中的标签转化为HTML语言</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> menuList = [<span class="string">'门店'</span>, <span class="string">'星享俱乐部'</span>, <span class="string">'菜单'</span>, <span class="string">'&lt;hr&gt;&lt;/hr&gt;'</span>, <span class="string">'星巴克移动应用'</span>, <span class="string">'星礼卡'</span>, <span class="string">'星巴克臻选&lt;sup&gt;TM&lt;/sup&gt;'</span>, <span class="string">'咖啡星讲堂'</span>, <span class="string">'上海烘培工坊'</span>, <span class="string">'关于星巴克'</span>, <span class="string">'帮助中心'</span>, <span class="string">'&lt;hr&gt;&lt;/hr&gt;'</span>];</span><br><span class="line"><span class="keyword">const</span> listItems = menuList.map(<span class="function">(<span class="params">item,index</span>) =&gt;</span>&lt;li key=&#123;index&#125; dangerouslySetInnerHTML=&#123;&#123; __html: item &#125;&#125;&gt;&lt;/li&gt;);<span class="comment">// dangerouslySetInnerHTML：将JS中的标签转化为HTML语言</span></span><br></pre></td></tr></table></figure>
 <p>使用了dangerouslySetInnerHTML的标签内不能再包含内容</p>
 <p>效果：</p>
 <p><img src="https://raw.githubusercontent.com/wz71014q/img/master/reactContact.png" alt="reactContact"></p>
@@ -1851,7 +2048,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1904,7 +2101,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1957,7 +2156,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

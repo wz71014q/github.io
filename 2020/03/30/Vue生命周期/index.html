@@ -97,14 +97,14 @@
 
 
   <meta name="description" content="&amp;emsp;&amp;emsp;框架为什么要有生命周期？因为框架就像是组装好的电脑，每个人的电脑里软件都不一样，买来了电脑，需要让用户可以有办法自己装一些软件。也就是实际业务不同，你要借助框架去做一些事，所以需要框架给一些接口让外部业务去调用，去填充数据。从new Vue()开始，这个框架的生命周期(作为一个构造函数函数)就已经开始了，但是我们平时使用的是它在一些特定的时刻的抛出的接口，这个才是定义的生命">
-<meta name="keywords" content="HTML,JS,Vue">
+<meta name="keywords" content="JS,HTML,Vue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue生命周期">
 <meta property="og:url" content="https://github.com/wz71014q/2020/03/30/Vue生命周期/index.html">
 <meta property="og:site_name" content="βloS">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;框架为什么要有生命周期？因为框架就像是组装好的电脑，每个人的电脑里软件都不一样，买来了电脑，需要让用户可以有办法自己装一些软件。也就是实际业务不同，你要借助框架去做一些事，所以需要框架给一些接口让外部业务去调用，去填充数据。从new Vue()开始，这个框架的生命周期(作为一个构造函数函数)就已经开始了，但是我们平时使用的是它在一些特定的时刻的抛出的接口，这个才是定义的生命">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-02T09:40:07.849Z">
+<meta property="og:updated_time" content="2020-04-30T06:00:26.306Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue生命周期">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;框架为什么要有生命周期？因为框架就像是组装好的电脑，每个人的电脑里软件都不一样，买来了电脑，需要让用户可以有办法自己装一些软件。也就是实际业务不同，你要借助框架去做一些事，所以需要框架给一些接口让外部业务去调用，去填充数据。从new Vue()开始，这个框架的生命周期(作为一个构造函数函数)就已经开始了，但是我们平时使用的是它在一些特定的时刻的抛出的接口，这个才是定义的生命">
@@ -369,7 +369,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-02 17:40:07" itemprop="dateModified" datetime="2020-04-02T17:40:07+08:00">2020-04-02</time>
+                <time title="修改时间：2020-04-30 14:00:26" itemprop="dateModified" datetime="2020-04-30T14:00:26+08:00">2020-04-30</time>
               
             
           </span>
@@ -445,6 +445,7 @@
         <p>&emsp;&emsp;框架为什么要有生命周期？因为框架就像是组装好的电脑，每个人的电脑里软件都不一样，买来了电脑，需要让用户可以有办法自己装一些软件。也就是实际业务不同，你要借助框架去做一些事，所以需要框架给一些接口让外部业务去调用，去填充数据。从new Vue()开始，这个框架的生命周期(作为一个构造函数函数)就已经开始了，但是我们平时使用的是它在一些特定的时刻的抛出的接口，这个才是定义的生命周期。</p>
 <h1 id="Vue构造函数"><a href="#Vue构造函数" class="headerlink" title="Vue构造函数"></a>Vue构造函数</h1><p>&emsp;&emsp;这里学习的源码版本是2.6.11，构造函数的定义在src\core\instance\index.js。源码中Vue的构造函数很简单，首先检测是不是作为构造函数使用，然后执行初始化 this._init(options)</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Vue</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; !(<span class="keyword">this</span> <span class="keyword">instanceof</span> Vue) ) &#123;</span><br><span class="line">    warn(<span class="string">'Vue is a constructor and should be called with the `new` keyword'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">this</span>._init(options)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">initMixin(Vue)</span><br><span class="line">stateMixin(Vue)</span><br><span class="line">eventsMixin(Vue)</span><br><span class="line">lifecycleMixin(Vue)</span><br><span class="line">renderMixin(Vue)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h1 id="init"><a href="#init" class="headerlink" title="_init"></a>_init</h1><p>初始化方法是在上面的initMixin中定义的，位置是在src\core\instance\init.js中</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">Vue.prototype._init = <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> vm = <span class="keyword">this</span>;</span><br><span class="line">  <span class="comment">// a uid</span></span><br><span class="line">  vm._uid = uid$<span class="number">2</span>++;</span><br><span class="line">  <span class="keyword">var</span> startTag, endTag;</span><br><span class="line">  <span class="comment">/* istanbul ignore if */</span></span><br><span class="line">  <span class="keyword">if</span> ( config.performance &amp;&amp; mark) &#123; <span class="comment">// 性能监控</span></span><br><span class="line">    startTag = <span class="string">"vue-perf-start:"</span> + (vm._uid);</span><br><span class="line">    endTag = <span class="string">"vue-perf-end:"</span> + (vm._uid);</span><br><span class="line">    mark(startTag);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// a flag to avoid this being observed</span></span><br><span class="line">  vm._isVue = <span class="literal">true</span>;</span><br><span class="line">  <span class="comment">// merge options</span></span><br><span class="line">  <span class="keyword">if</span> (options &amp;&amp; options._isComponent) &#123; <span class="comment">// 优化内部组件实例</span></span><br><span class="line">    initInternalComponent(vm, options); <span class="comment">// 初始化内部组件</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    vm.$options = mergeOptions(</span><br><span class="line">      resolveConstructorOptions(vm.constructor),</span><br><span class="line">      options || &#123;&#125;,</span><br><span class="line">      vm</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/* istanbul ignore else */</span></span><br><span class="line">  &#123;</span><br><span class="line">    initProxy(vm);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// expose real self</span></span><br><span class="line">  vm._self = vm;</span><br><span class="line">  initLifecycle(vm);</span><br><span class="line">  initEvents(vm);</span><br><span class="line">  initRender(vm);</span><br><span class="line">  callHook(vm, <span class="string">'beforeCreate'</span>);</span><br><span class="line">  initInjections(vm); <span class="comment">// resolve injections before data/props</span></span><br><span class="line">  initState(vm);</span><br><span class="line">  initProvide(vm); <span class="comment">// resolve provide after data/props</span></span><br><span class="line">  callHook(vm, <span class="string">'created'</span>);</span><br><span class="line">  <span class="comment">/* istanbul ignore if */</span></span><br><span class="line">  <span class="keyword">if</span> ( config.performance &amp;&amp; mark) &#123; <span class="comment">// 性能监控</span></span><br><span class="line">    vm._name = formatComponentName(vm, <span class="literal">false</span>);</span><br><span class="line">    mark(endTag);</span><br><span class="line">    measure((<span class="string">"vue "</span> + (vm._name) + <span class="string">" init"</span>), startTag, endTag);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (vm.$options.el) &#123; <span class="comment">// 开始挂载</span></span><br><span class="line">    vm.$mount(vm.$options.el);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>它的作用是定义vm、uid，合并所有配置，执行生命周期系统、事件系统、渲染系统、数据系统的初始化，最后检测传入的挂载节点无误后执行挂载。其中mergeOptions的作用是合并当前构造函数(新建的Vue的实例)的options和其父级构造函数(Vue)的options属性，Vue自身的配置里包含了自带的组件，指令等，如<transition>。其中会执行对props、Inject、全局指令进行标准化的方法：normalizeProps(child, vm);normalizeInject(child, vm)，normalizeDirectives(child)，props里的类型检测就是在这进行的，另外会合并minxins里的options，具体实现暂且不谈。我们一个一个来看：</transition></p>
@@ -503,9 +504,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HTML/" rel="tag"># HTML</a>
-          
             <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/HTML/" rel="tag"># HTML</a>
           
             <a href="/tags/Vue/" rel="tag"># Vue</a>
           
@@ -529,6 +530,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/30/webpack选择性编译/" rel="prev" title="webpack选择性编译">
+                webpack选择性编译 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -600,7 +605,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -653,7 +658,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -706,7 +713,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-p.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-p.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="项目背景&amp;emsp;&amp;emsp;项目中有些地方引用了本地的mock数据，这些数据全部在一个mock.js的文件中，由于数据较多，比较占位置，所以想在生产环境下移除该部分代码。具体实现还得靠webpack插件。以这个demo为例进行讲解。 关键点 webpack.DefinePlugin 定义工程中的全局变量，本项目中定义了ISDEBUG来判断运行环境是否是生产环境 terser-webpack-p">
+<meta name="keywords" content="JS,webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack选择性编译">
+<meta property="og:url" content="https://github.com/wz71014q/2020/04/30/webpack选择性编译/index.html">
+<meta property="og:site_name" content="βloS">
+<meta property="og:description" content="项目背景&amp;emsp;&amp;emsp;项目中有些地方引用了本地的mock数据，这些数据全部在一个mock.js的文件中，由于数据较多，比较占位置，所以想在生产环境下移除该部分代码。具体实现还得靠webpack插件。以这个demo为例进行讲解。 关键点 webpack.DefinePlugin 定义工程中的全局变量，本项目中定义了ISDEBUG来判断运行环境是否是生产环境 terser-webpack-p">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/noMock.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/terser.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/mock.jpg">
+<meta property="og:updated_time" content="2020-04-30T10:30:19.544Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack选择性编译">
+<meta name="twitter:description" content="项目背景&amp;emsp;&amp;emsp;项目中有些地方引用了本地的mock数据，这些数据全部在一个mock.js的文件中，由于数据较多，比较占位置，所以想在生产环境下移除该部分代码。具体实现还得靠webpack插件。以这个demo为例进行讲解。 关键点 webpack.DefinePlugin 定义工程中的全局变量，本项目中定义了ISDEBUG来判断运行环境是否是生产环境 terser-webpack-p">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/noMock.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://github.com/wz71014q/2020/04/30/webpack选择性编译/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>webpack选择性编译 | βloS</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">βloS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/wz71014q/2020/04/30/webpack选择性编译/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="βloS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpack选择性编译
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-30 14:00:00 / 修改时间：18:30:19" itemprop="dateCreated datePublished" datetime="2020-04-30T14:00:00+08:00">2020-04-30</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/JS/" itemprop="url" rel="index"><span itemprop="name">JS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/webpack/" itemprop="url" rel="index"><span itemprop="name">webpack</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h2><p>&emsp;&emsp;项目中有些地方引用了本地的mock数据，这些数据全部在一个mock.js的文件中，由于数据较多，比较占位置，所以想在生产环境下移除该部分代码。具体实现还得靠webpack插件。以这个<a href="https://github.com/wz71014q/optimizewebpack">demo</a>为例进行讲解。</p>
+<h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><ul>
+<li><a href="https://webpack.docschina.org/plugins/define-plugin/" target="_blank" rel="noopener">webpack.DefinePlugin</a> 定义工程中的全局变量，本项目中定义了ISDEBUG来判断运行环境是否是生产环境</li>
+<li><a href="https://github.com/webpack-contrib/terser-webpack-plugin">terser-webpack-plugin</a> 压缩代码，与uglifyjs-webpack-plugin功能一样，甚至参数都相差不大。但是对于ES6的支持程度比后者更好。该插件优化项之一是去除项目中无效代码，这是核心依赖项</li>
+<li><a href="https://github.com/webpack-contrib/webpack-bundle-analyzer">webpack-bundle-analyzer</a> 分析打包结果</li>
+<li>项目中mock.js的引用方式要使用Commonjs标准的require(‘mock’)</li>
+</ul>
+<a id="more"></a>
+<h2 id="项目目录结构"><a href="#项目目录结构" class="headerlink" title="项目目录结构"></a>项目目录结构</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">├─config <span class="comment">// webpack配置</span></span><br><span class="line">│   ├─entry.js</span><br><span class="line">│   ├─logConfig.js</span><br><span class="line">│   ├─server.js</span><br><span class="line">│   ├─webpack.common.js</span><br><span class="line">│   ├─webpack.dev.js</span><br><span class="line">│   └─webpack.pro.js</span><br><span class="line">├─dist <span class="comment">// 打包输出目录</span></span><br><span class="line">├─entries <span class="comment">// 多页入口</span></span><br><span class="line">├─public <span class="comment">// 模板目录</span></span><br><span class="line">└─src</span><br><span class="line">    ├─mock <span class="comment">// 本地mock数据，将要在生产环境下移除的部分</span></span><br><span class="line">    │  └─mock.js</span><br><span class="line">    ├─service <span class="comment">// 引用mock数据的地方，这里要用require动态引入mock.js</span></span><br><span class="line">    │  ├─details.js</span><br><span class="line">    │  ├─life.js</span><br><span class="line">    │  └─menu.js</span><br><span class="line">    └─views <span class="comment">// 业务逻辑页面</span></span><br><span class="line">        ├─detail</span><br><span class="line">        │  └─index.vue</span><br><span class="line">        ├─life</span><br><span class="line">        │  └─index.vue</span><br><span class="line">        │─menu</span><br><span class="line">        │  └─index.vue</span><br><span class="line">        └─Home.vue</span><br></pre></td></tr></table></figure>
+<p>项目中service下的每个文件都会引用mock.js文件。优化前，这些文件内容如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// mock.js</span></span><br><span class="line"><span class="keyword">const</span> mockData = &#123;</span><br><span class="line">  code: <span class="number">0</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    name: <span class="string">'菲尼克斯'</span>,</span><br><span class="line">    job: <span class="string">'净化者'</span>,</span><br><span class="line">    position: <span class="string">"圣堂武士"</span>,</span><br><span class="line">    profession: <span class="string">"净化者"</span>,</span><br><span class="line">    duty: <span class="string">"执政官"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> mockData;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// service下的js文件</span></span><br><span class="line"><span class="keyword">import</span> mockData <span class="keyword">from</span> <span class="string">'mockDataPath'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ISDEBUG = process.env.NODE_ENV !== <span class="string">'production'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (ISDEBUG) &#123;</span><br><span class="line">  result = mockData;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> result;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--&gt;views下的页面文件&lt;--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"test-text"</span>&gt;</span></span><br><span class="line">      Detail</span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      &#123;&#123; data &#125;&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> mockData <span class="keyword">from</span> <span class="string">'@/service/details'</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">'Detail'</span>,</span></span><br><span class="line">  data() &#123;</span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">      data: <span class="string">''</span></span></span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line"><span class="javascript">    <span class="keyword">this</span>.data = mockData;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">lang</span>=<span class="string">"scss"</span> <span class="attr">scoped</span>&gt;</span></span><br><span class="line">.test-text &#123;</span><br><span class="line">  font-size: 50px;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>没有优化的打包结果：</p>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/noMock.jpg" alt="noMock"></p>
+<h2 id="优化步骤"><a href="#优化步骤" class="headerlink" title="优化步骤"></a>优化步骤</h2><h3 id="webpack增加配置：terser-webpack-plugin"><a href="#webpack增加配置：terser-webpack-plugin" class="headerlink" title="webpack增加配置：terser-webpack-plugin"></a>webpack增加配置：terser-webpack-plugin</h3><p>mock.js文件中的数据只是本地调试时使用的，所以，我们的目的是在生产环境下移除这部分代码。在上文我们提到的简化代码的插件<a href="https://github.com/webpack-contrib/terser-webpack-plugin">terser-webpack-plugin</a>，它使用<a href="https://github.com/terser/terser">terser.js</a>来优化代码，并且有一项功能，就是打包时移除无效代码:</p>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/terser.png" alt="mock"></p>
+<p>什么是无效代码，就像这种：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'这是一段无效代码'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以我们需要对mock文件引用方式做一个调整</p>
+<h3 id="更新本地文件引用方式"><a href="#更新本地文件引用方式" class="headerlink" title="更新本地文件引用方式"></a>更新本地文件引用方式</h3><h4 id="require与import的区别"><a href="#require与import的区别" class="headerlink" title="require与import的区别"></a>require与import的区别</h4><p>&emsp;&emsp;在这里需要说一下require与import引入模块的一些区别。因为我们需要把项目中引用模块的方式由ES6的import全部改成Commonjs标准的require。原因如下：</p>
+<ul>
+<li>import是ES6的模块引入方式，它是在JS引擎编译阶段执行的。在代码运行前，遇到import就会生成一个只读引用，然后在运行阶段，碰到有用到引入模块值的再去引用模块取值，可能项目中并没有引用引入模块的值，但是已经声明了，就会执行。所以无法在生产环境下移除该部分代码，</li>
+<li>require是运行时执行，可以做到按需加载。</li>
+<li>以后import可能也会支持按需引入，在ES2020提案中，可以使用<a href="https://es6.ruanyifeng.com/#docs/module" target="_blank" rel="noopener">import(‘module’)</a>来按需加载。目前可以使用babel的<a href="https://www.npmjs.com/package/@babel/plugin-syntax-dynamic-import" target="_blank" rel="noopener">@babel/plugin-syntax-dynamic-import</a>插件进行兼容</li>
+</ul>
+<h4 id="优化结果"><a href="#优化结果" class="headerlink" title="优化结果"></a>优化结果</h4><p>修改文件引用方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// mock.js</span></span><br><span class="line"><span class="keyword">const</span> mockData = &#123;</span><br><span class="line">  code: <span class="number">0</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    name: <span class="string">'菲尼克斯'</span>,</span><br><span class="line">    job: <span class="string">'净化者'</span>,</span><br><span class="line">    position: <span class="string">"圣堂武士"</span>,</span><br><span class="line">    profession: <span class="string">"净化者"</span>,</span><br><span class="line">    duty: <span class="string">"执政官"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = mockData;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// service下的js文件</span></span><br><span class="line"><span class="keyword">let</span> result = <span class="string">''</span>;</span><br><span class="line"><span class="keyword">if</span> (ISDEBUG) &#123; <span class="comment">// 全局变量ISDEBUG控制代码是否有效</span></span><br><span class="line">  <span class="keyword">const</span> mockData = <span class="built_in">require</span>(<span class="string">'mockDataPath'</span>); <span class="comment">// require按需加载</span></span><br><span class="line">  result = mockData;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> result;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack部分增加配置</span></span><br><span class="line">webpackChainConfig</span><br><span class="line">  .plugin(<span class="string">'DefinePlugin'</span>)</span><br><span class="line">  .use(webpack.DefinePlugin, [&#123;</span><br><span class="line">    ISDEBUG: process.env.NODE_ENV !== <span class="string">'production'</span> <span class="comment">// 定义全局变量ISDEBUG</span></span><br><span class="line">  &#125;])</span><br><span class="line">webpackChainConfig</span><br><span class="line">  .optimization</span><br><span class="line">  .minimizer(<span class="string">'terser'</span>)</span><br><span class="line">  .use(TerserPlugin, [&#123;</span><br><span class="line">      exclude: <span class="regexp">/\.min\.js$/</span>, <span class="comment">// 排除已压缩项</span></span><br><span class="line">      cache: <span class="literal">true</span>,</span><br><span class="line">      parallel: <span class="literal">true</span>,</span><br><span class="line">      sourceMap: <span class="literal">false</span>,</span><br><span class="line">      extractComments: <span class="literal">false</span>, <span class="comment">// 不生成注释文档</span></span><br><span class="line">      terserOptions: &#123;</span><br><span class="line">        warnings: <span class="literal">false</span>,</span><br><span class="line">        compress: &#123;</span><br><span class="line">          booleans: <span class="literal">true</span>,</span><br><span class="line">          if_return: <span class="literal">true</span>,</span><br><span class="line">          sequences: <span class="literal">true</span>,</span><br><span class="line">          unused: <span class="literal">true</span>, <span class="comment">// 移除无效代码</span></span><br><span class="line">          drop_debugger: <span class="literal">true</span>,</span><br><span class="line">          pure_funcs: [<span class="string">'console.log'</span>] <span class="comment">// 移除console.log</span></span><br><span class="line">        &#125;,</span><br><span class="line">        output: &#123;</span><br><span class="line">          comments: <span class="literal">false</span> <span class="comment">// 移除注释</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;]</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+<p>优化结果如下，mock.js已经没有了</p>
+<p><img src="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/mock.jpg" alt="mock"></p>
+<h2 id="尝试方案"><a href="#尝试方案" class="headerlink" title="尝试方案"></a>尝试方案</h2><p>&emsp;&emsp;在这之前，还试过webpack属性<a href="https://webpack.docschina.org/configuration/externals/" target="_blank" rel="noopener">external</a>，但无法达成目的。因为它的作用是打包时排除某一个已经采用CDN或其他方式引用的库或文件。关键点是已经设置了CDN等<font color="#FF0000">别的引入方式</font>。因为打包之后该引用的地方还是会继续引用，区别是本地环境下，可能从本地node_modules引入。打包时，webpack会自动排除该文件，改从已经设置好的CDN引入了，这样可以极大的减少打包体积，但是会增加网络请求量，使用时也要权衡利弊。这个属性之前没怎么用过，不然也不会在这里采坑~</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>使用<a href="https://webpack.docschina.org/plugins/define-plugin/" target="_blank" rel="noopener">webpack.DefinePlugin</a>定义全局变量ISDEBUG控制代码是否有效；</li>
+<li>使用require按需引入；</li>
+<li>使用<a href="https://github.com/webpack-contrib/terser-webpack-plugin">terser-webpack-plugin</a>优化代码，移除无效代码</li>
+</ol>
+<h2 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h2><p><a href="https://es6.ruanyifeng.com/#docs/module" target="_blank" rel="noopener">ECMAScript 6 入门——阮一峰</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+            <a href="/tags/webpack/" rel="tag"># webpack</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/30/Vue生命周期/" rel="next" title="Vue生命周期">
+                <i class="fa fa-chevron-left"></i> Vue生命周期
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Qiang</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wz71014q" title="GitHub &rarr; https://github.com/wz71014q"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="rss &rarr; /atom.xml"><i class="fa fa-fw fa-globe"></i>rss</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目背景"><span class="nav-number">1.</span> <span class="nav-text">项目背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键点"><span class="nav-number">2.</span> <span class="nav-text">关键点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目目录结构"><span class="nav-number">3.</span> <span class="nav-text">项目目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化步骤"><span class="nav-number">4.</span> <span class="nav-text">优化步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#webpack增加配置：terser-webpack-plugin"><span class="nav-number">4.1.</span> <span class="nav-text">webpack增加配置：terser-webpack-plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新本地文件引用方式"><span class="nav-number">4.2.</span> <span class="nav-text">更新本地文件引用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#require与import的区别"><span class="nav-number">4.2.1.</span> <span class="nav-text">require与import的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化结果"><span class="nav-number">4.2.2.</span> <span class="nav-text">优化结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尝试方案"><span class="nav-number">5.</span> <span class="nav-text">尝试方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考内容"><span class="nav-number">7.</span> <span class="nav-text">参考内容</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '308e932f93156c7c01df',
+    clientSecret: '6e6359f046270cc0ee7c61fdd2d97ff3aba140a9',
+    repo: 'blogComment',
+    owner: 'wz71014q',
+    admin: ['wz71014q'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: ''
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+  <script src="/live2d-widget/autoload.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>
