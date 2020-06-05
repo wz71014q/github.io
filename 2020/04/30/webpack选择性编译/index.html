@@ -107,12 +107,14 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/noMock.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/terser.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/mock.jpg">
-<meta property="og:updated_time" content="2020-04-30T10:30:19.544Z">
+<meta property="og:updated_time" content="2020-06-05T02:12:42.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="webpack选择性编译">
 <meta name="twitter:description" content="项目背景&amp;emsp;&amp;emsp;项目中有些地方引用了本地的mock数据，这些数据全部在一个mock.js的文件中，由于数据较多，比较占位置，所以想在生产环境下移除该部分代码。具体实现还得靠webpack插件。以这个demo为例进行讲解。 关键点 webpack.DefinePlugin 定义工程中的全局变量，本项目中定义了ISDEBUG来判断运行环境是否是生产环境 terser-webpack-p">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/noMock.jpg">
 
+
+  
 
 
   <link rel="alternate" href="/atom.xml" title="βloS" type="application/atom+xml">
@@ -356,12 +358,24 @@
                 
               
 
-              <time title="创建时间：2020-04-30 14:00:00 / 修改时间：18:30:19" itemprop="dateCreated datePublished" datetime="2020-04-30T14:00:00+08:00">2020-04-30</time>
+              <time title="创建时间：2020-04-30 14:00:00" itemprop="dateCreated datePublished" datetime="2020-04-30T14:00:00+08:00">2020-04-30</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-05 10:12:42" itemprop="dateModified" datetime="2020-06-05T10:12:42+08:00">2020-06-05</time>
               
             
           </span>
@@ -459,10 +473,13 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack部分增加配置</span></span><br><span class="line">webpackChainConfig</span><br><span class="line">  .plugin(<span class="string">'DefinePlugin'</span>)</span><br><span class="line">  .use(webpack.DefinePlugin, [&#123;</span><br><span class="line">    ISDEBUG: process.env.NODE_ENV !== <span class="string">'production'</span> <span class="comment">// 定义全局变量ISDEBUG</span></span><br><span class="line">  &#125;])</span><br><span class="line">webpackChainConfig</span><br><span class="line">  .optimization</span><br><span class="line">  .minimizer(<span class="string">'terser'</span>)</span><br><span class="line">  .use(TerserPlugin, [&#123;</span><br><span class="line">      exclude: <span class="regexp">/\.min\.js$/</span>, <span class="comment">// 排除已压缩项</span></span><br><span class="line">      cache: <span class="literal">true</span>,</span><br><span class="line">      parallel: <span class="literal">true</span>,</span><br><span class="line">      sourceMap: <span class="literal">false</span>,</span><br><span class="line">      extractComments: <span class="literal">false</span>, <span class="comment">// 不生成注释文档</span></span><br><span class="line">      terserOptions: &#123;</span><br><span class="line">        warnings: <span class="literal">false</span>,</span><br><span class="line">        compress: &#123;</span><br><span class="line">          booleans: <span class="literal">true</span>,</span><br><span class="line">          if_return: <span class="literal">true</span>,</span><br><span class="line">          sequences: <span class="literal">true</span>,</span><br><span class="line">          unused: <span class="literal">true</span>, <span class="comment">// 移除无效代码</span></span><br><span class="line">          drop_debugger: <span class="literal">true</span>,</span><br><span class="line">          pure_funcs: [<span class="string">'console.log'</span>] <span class="comment">// 移除console.log</span></span><br><span class="line">        &#125;,</span><br><span class="line">        output: &#123;</span><br><span class="line">          comments: <span class="literal">false</span> <span class="comment">// 移除注释</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;]</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
 <p>优化结果如下，mock.js已经没有了</p>
 <p><img src="https://raw.githubusercontent.com/wz71014q/img/master/webpack/conditional/mock.jpg" alt="mock"></p>
+<h4 id="方案更新"><a href="#方案更新" class="headerlink" title="方案更新"></a>方案更新</h4><ul>
+<li>使用webpack内置插件ProvidePlugin全局引入公共模块，需要使用时即可直接使用，无需每次手动require引入</li>
+</ul>
 <h2 id="尝试方案"><a href="#尝试方案" class="headerlink" title="尝试方案"></a>尝试方案</h2><p>&emsp;&emsp;在这之前，还试过webpack属性<a href="https://webpack.docschina.org/configuration/externals/" target="_blank" rel="noopener">external</a>，但无法达成目的。因为它的作用是打包时排除某一个已经采用CDN或其他方式引用的库或文件。关键点是已经设置了CDN等<font color="#FF0000">别的引入方式</font>。因为打包之后该引用的地方还是会继续引用，区别是本地环境下，可能从本地node_modules引入。打包时，webpack会自动排除该文件，改从已经设置好的CDN引入了，这样可以极大的减少打包体积，但是会增加网络请求量，使用时也要权衡利弊。这个属性之前没怎么用过，不然也不会在这里采坑~</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
 <li>使用<a href="https://webpack.docschina.org/plugins/define-plugin/" target="_blank" rel="noopener">webpack.DefinePlugin</a>定义全局变量ISDEBUG控制代码是否有效；</li>
-<li>使用require按需引入；</li>
+<li>使用require按需引入，或用ProvidePlugin全局引入；</li>
 <li>使用<a href="https://github.com/webpack-contrib/terser-webpack-plugin">terser-webpack-plugin</a>优化代码，移除无效代码</li>
 </ol>
 <h2 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h2><p><a href="https://es6.ruanyifeng.com/#docs/module" target="_blank" rel="noopener">ECMAScript 6 入门——阮一峰</a></p>
@@ -765,7 +782,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目背景"><span class="nav-number">1.</span> <span class="nav-text">项目背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键点"><span class="nav-number">2.</span> <span class="nav-text">关键点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目目录结构"><span class="nav-number">3.</span> <span class="nav-text">项目目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化步骤"><span class="nav-number">4.</span> <span class="nav-text">优化步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#webpack增加配置：terser-webpack-plugin"><span class="nav-number">4.1.</span> <span class="nav-text">webpack增加配置：terser-webpack-plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新本地文件引用方式"><span class="nav-number">4.2.</span> <span class="nav-text">更新本地文件引用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#require与import的区别"><span class="nav-number">4.2.1.</span> <span class="nav-text">require与import的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化结果"><span class="nav-number">4.2.2.</span> <span class="nav-text">优化结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尝试方案"><span class="nav-number">5.</span> <span class="nav-text">尝试方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考内容"><span class="nav-number">7.</span> <span class="nav-text">参考内容</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目背景"><span class="nav-number">1.</span> <span class="nav-text">项目背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键点"><span class="nav-number">2.</span> <span class="nav-text">关键点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目目录结构"><span class="nav-number">3.</span> <span class="nav-text">项目目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化步骤"><span class="nav-number">4.</span> <span class="nav-text">优化步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#webpack增加配置：terser-webpack-plugin"><span class="nav-number">4.1.</span> <span class="nav-text">webpack增加配置：terser-webpack-plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新本地文件引用方式"><span class="nav-number">4.2.</span> <span class="nav-text">更新本地文件引用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#require与import的区别"><span class="nav-number">4.2.1.</span> <span class="nav-text">require与import的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化结果"><span class="nav-number">4.2.2.</span> <span class="nav-text">优化结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方案更新"><span class="nav-number">4.2.3.</span> <span class="nav-text">方案更新</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尝试方案"><span class="nav-number">5.</span> <span class="nav-text">尝试方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考内容"><span class="nav-number">7.</span> <span class="nav-text">参考内容</span></a></li></ol></div>
             
 
           </div>
